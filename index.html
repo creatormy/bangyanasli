@@ -617,6 +617,7 @@
         window.currentGlobalData = null;
         window.bgmType = 'audio';
 
+        // DATA KANDUNGAN DEFAULT DIKEKALKAN SEPERTI BIASA
         const DEFAULT_CONTENT = {
             hero: { profileImg: "https://i.imgur.com/odvfubA.png" },
             bgm: { type: "audio", audioUrl: "https://cdn.pixabay.com/download/audio/2022/10/18/audio_31c2730e64.mp3?filename=epic-trailer-music-122971.mp3", ytId: "" },
@@ -647,7 +648,8 @@
             ]
         };
 
-        const DEFAULT_ADMIN = { email: "mr.bangyan92@gmail.com", pass: "abgyan92" };
+        // KREDENSIAL DIBUANG DARI SINI: Hanya kata laluan SEMENTARA untuk setup kali pertama.
+        const DEFAULT_ADMIN = { email: "admin@bangyan.com", pass: "admin1234" };
 
         const initSystem = async () => {
             try {
@@ -972,9 +974,8 @@
             try {
                 await new Promise(resolve => setTimeout(resolve, 800));
                 
+                // SISTEM KINI HANYA MEMBACA DARI DATABASE FIRESTORE
                 if (dbEmail && dbPass && dbEmail === email && dbPass === pass) {
-                    isValid = true;
-                } else if (email === "mr.bangyan92@gmail.com" && pass === "abgyan92") {
                     isValid = true;
                 }
 
