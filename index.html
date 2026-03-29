@@ -1076,7 +1076,8 @@
                 document.getElementById('ad-bgm-yt').value = ytClean;
 
                 const contentRef = doc(db, 'artifacts', appId, 'public', 'data', 'website_content', 'main_content');
-                await updateDoc(contentRef, {
+                // TUKAR updateDoc KEPADA setDoc DENGAN { merge: true }
+                await setDoc(contentRef, {
                     hero: { profileImg: document.getElementById('ad-heroimg').value },
                     bgm: { 
                         type: document.getElementById('ad-bgm-type').value,
@@ -1100,20 +1101,21 @@
                     },
                     games: newGames,
                     armory: newArmory
-                });
+                }, { merge: true });
 
                 const newEmail = document.getElementById('ad-email').value;
                 const newPass = document.getElementById('ad-pass').value;
                 if(newEmail && newPass) {
                     const authRef = doc(db, 'artifacts', appId, 'public', 'data', 'admin_config', 'main_config');
-                    await updateDoc(authRef, { email: newEmail, pass: newPass });
+                    // TUKAR updateDoc KEPADA setDoc DENGAN { merge: true }
+                    await setDoc(authRef, { email: newEmail, pass: newPass }, { merge: true });
                 }
 
                 window.showCustomAlert("Pangkalan Data berjaya dikemas kini!");
                 document.getElementById('adminPanelModal').classList.add('hidden');
             } catch(err) { 
                 console.error(err); 
-                window.showCustomAlert("Ralat semasa menyimpan pangkalan data."); 
+                window.showCustomAlert("Ralat semasa menyimpan pangkalan data. Sila semak Firestore Rules."); 
             } finally {
                 btn.innerHTML = `Simpan`;
             }
