@@ -414,6 +414,32 @@
         </div>
     </div>
 
+    <!-- MODAL EDIT ARTIKEL MINI BLOG -->
+    <div id="editArticleModal" class="hidden fixed inset-0 z-[150] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 pointer-events-auto">
+        <div class="bg-pubg-darker border-2 border-blue-500 shadow-[0_0_40px_rgba(59,130,246,0.3)] w-full max-w-4xl relative p-6 md:p-8 max-h-[90vh] overflow-y-auto">
+            <button onclick="document.getElementById('editArticleModal').classList.add('hidden')" class="absolute top-3 right-4 text-gray-500 hover:text-white text-xl">&times;</button>
+            <h3 class="text-3xl font-epic font-bold text-blue-400 uppercase mb-6 border-b border-gray-700 pb-2"><i class="fas fa-edit"></i> Edit Artikel</h3>
+            <input type="hidden" id="edit-blog-id">
+            <input type="hidden" id="edit-blog-date">
+            <input type="hidden" id="edit-blog-timestamp">
+            <div class="space-y-4">
+                <div>
+                    <label class="text-[10px] text-gray-400 uppercase font-bold">Tajuk Artikel</label>
+                    <input type="text" id="edit-blog-title" class="w-full bg-pubg-black border border-gray-600 text-white p-2 mt-1 focus:border-blue-400 outline-none pointer-events-auto select-auto cursor-text">
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-400 uppercase font-bold">Hashtag / Kategori</label>
+                    <input type="text" id="edit-blog-tags" class="w-full bg-pubg-black border border-gray-600 text-white p-2 mt-1 focus:border-blue-400 outline-none pointer-events-auto select-auto cursor-text">
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-400 uppercase font-bold">Isi Artikel</label>
+                    <textarea id="edit-blog-content" class="w-full bg-pubg-black border border-gray-600 text-white p-2 mt-1 h-64 focus:border-blue-400 outline-none pointer-events-auto select-auto cursor-text"></textarea>
+                </div>
+                <button onclick="saveEditedArticle()" id="btnSaveEditBlog" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold font-epic text-xl py-3 uppercase tracking-wider mt-4 shadow-lg pointer-events-auto">Simpan Perubahan</button>
+            </div>
+        </div>
+    </div>
+
     <!-- WADAH HTML ADMIN PANEL -->
     <div id="adminPanelContainer"></div>
 
@@ -422,6 +448,15 @@
         window.showCustomAlert = function(message) {
             document.getElementById('customAlertText').innerText = message;
             document.getElementById('customAlertModal').classList.remove('hidden');
+        };
+
+        // FUNGSI KEMAS KINI SEO DINAMIK
+        window.updateSEO = function(title, description, keywords) {
+            document.title = title;
+            let metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc) metaDesc.setAttribute("content", description);
+            let metaKey = document.querySelector('meta[name="keywords"]');
+            if (metaKey) metaKey.setAttribute("content", keywords);
         };
 
         // SISTEM URL ROUTING (HASH-BASED)
@@ -434,6 +469,13 @@
                 const id = hash.split('=')[1];
                 window.showFullArticle(id);
             } else {
+                // KEMBALIKAN SEO KE DEFAULT JIKA BUKAN ARTIKEL PENUH
+                window.updateSEO(
+                    "BANGYAN | Freelance Game Creator",
+                    "Profil rasmi BangYan - Freelance Game Creator, Pengasas SRTEAM & Affiliate.",
+                    "BangYan, Gamer, Freelance Creator, SRTEAM, Spectral Rangers, PUBG Mobile, Rust Mobile, Affiliate"
+                );
+
                 // Logik Menu Biasa
                 const isDesktop = window.innerWidth >= 1024;
                 document.querySelectorAll('.page-section').forEach(el => {
@@ -469,6 +511,14 @@
                 return;
             }
             
+            // KEMAS KINI SEO KHAS UNTUK ARTIKEL INI
+            const cleanDescription = article.content.replace(/[\r\n]+/g, ' ').replace(/"/g, '&quot;').substring(0, 155) + '...';
+            window.updateSEO(
+                `BANGYAN | ${article.title}`,
+                cleanDescription,
+                `BangYan, Blog, ${article.tags}`
+            );
+
             // Format Kandungan
             document.getElementById('blog-detail-title').innerText = article.title;
             document.getElementById('blog-detail-date').innerHTML = `<i class="fas fa-calendar-alt text-pubg-yellow mr-1"></i> ${article.date}`;
@@ -476,7 +526,19 @@
             
             // Allow new lines to be converted to <br> securely
             const formattedContent = article.content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
-            document.getElementById('blog-detail-content').innerHTML = formattedContent;
+            
+            // TAMBAH BUTANG EDIT/PADAM JIKA ADMIN
+            let adminControls = '';
+            if (window.isSuperAdmin) {
+                adminControls = `
+                    <div class="mt-12 pt-6 border-t border-gray-700 flex flex-wrap gap-4 relative z-50">
+                        <button onclick="editArticleUI('${article.id}')" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 font-bold uppercase tracking-widest text-sm shadow-lg pointer-events-auto"><i class="fas fa-edit mr-2"></i> Edit Artikel</button>
+                        <button onclick="deleteArticle('${article.id}')" class="bg-red-600 hover:bg-red-500 text-white px-6 py-2.5 font-bold uppercase tracking-widest text-sm shadow-lg pointer-events-auto"><i class="fas fa-trash mr-2"></i> Padam</button>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('blog-detail-content').innerHTML = formattedContent + adminControls;
             
             // Tunjuk Halaman
             const isDesktop = window.innerWidth >= 1024;
@@ -540,6 +602,23 @@
         }
 
         window.closeAdminPanel = function() { document.getElementById('adminPanelModal').classList.add('hidden'); }
+
+        // BUKA MODAL EDIT ARTIKEL
+        window.editArticleUI = function(id) {
+            const data = window.currentGlobalData;
+            if(!data || !data.blog) return;
+            const article = data.blog.find(b => b.id === id);
+            if(!article) return;
+            
+            document.getElementById('edit-blog-id').value = article.id;
+            document.getElementById('edit-blog-date').value = article.date;
+            document.getElementById('edit-blog-timestamp').value = article.timestamp;
+            document.getElementById('edit-blog-title').value = article.title;
+            document.getElementById('edit-blog-tags').value = article.tags;
+            document.getElementById('edit-blog-content').value = article.content;
+            
+            document.getElementById('editArticleModal').classList.remove('hidden');
+        };
 
         window.testAudioPlayer = function() {
             const inputEl = document.getElementById('ad-bgm-audio');
@@ -637,7 +716,7 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
         let currentUser = null;
-        let isSuperAdmin = false;
+        window.isSuperAdmin = false;
         window.currentGlobalData = null;
         window.bgmType = 'audio';
         window.initialLoad = true; // Penanda load pertama untuk routing
@@ -765,7 +844,12 @@
                 const p6 = document.getElementById('display-prof-6'); if(p6) p6.innerHTML = data.profile.p6;
             }
 
-            // RENDER BLOG
+            // RENDER BLOG (RE-RENDER JIKA DIKEMASKINI)
+            if(window.location.hash.startsWith('#blog?id=')) {
+                const currId = window.location.hash.split('=')[1];
+                window.showFullArticle(currId);
+            }
+
             const blogContainer = document.getElementById('blog-container');
             if(blogContainer && data.blog) {
                 let blogHTML = '';
@@ -886,7 +970,14 @@
             
             '<div id="tab-games" class="admin-tab-content hidden"><h4 class="text-3xl font-epic font-bold text-white mb-6 border-b border-gray-700 pb-2">Riwayat Game</h4><div id="admin-games-list" class="space-y-6"></div></div>',
             '<div id="tab-armory" class="admin-tab-content hidden"><h4 class="text-3xl font-epic font-bold text-white mb-6 border-b border-gray-700 pb-2">Armory Video</h4><div id="admin-armory-list" class="space-y-6"></div></div>',
-            '<div id="tab-blog" class="admin-tab-content hidden"><h4 class="text-3xl font-epic font-bold text-white mb-6 border-b border-gray-700 pb-2">Mini Blog</h4><p class="text-xs text-pubg-yellow mb-4"><i class="fas fa-info-circle"></i> Untuk padam artikel, biarkan kotak Tajuk kosong dan tekan Simpan.</p><div id="admin-blog-list" class="space-y-6"></div></div>',
+            
+            '<div id="tab-blog" class="admin-tab-content hidden"><h4 class="text-3xl font-epic font-bold text-white mb-6 border-b border-gray-700 pb-2">Tulis Artikel Baru</h4><p class="text-xs text-pubg-yellow mb-4"><i class="fas fa-info-circle"></i> Gunakan ruangan ini HANYA untuk menerbitkan artikel baru. Untuk Edit atau Padam artikel sedia ada, sila buka artikel tersebut di halaman Mini Blog.</p><div id="admin-blog-new" class="space-y-6">',
+            '<div class="p-4 border border-gray-700 bg-black/50">',
+            '<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">',
+            '<div><label class="text-[10px] text-gray-400 uppercase">Tajuk Artikel</label><input type="text" id="ab-title-new" placeholder="Tajuk..." class="w-full bg-pubg-dark border border-gray-600 text-white p-2 mt-1 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text"></div>',
+            '<div><label class="text-[10px] text-gray-400 uppercase">Hashtag / Kategori (Cth: #Gamer #Tips)</label><input type="text" id="ab-tags-new" class="w-full bg-pubg-dark border border-gray-600 text-white p-2 mt-1 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text"></div>',
+            '<div class="col-span-1 md:col-span-2"><label class="text-[10px] text-gray-400 uppercase">Isi Artikel</label><textarea id="ab-content-new" class="w-full bg-pubg-dark border border-gray-600 text-white p-2 mt-1 h-40 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text"></textarea></div>',
+            '</div></div></div></div>',
             
             '<div id="tab-sys" class="admin-tab-content hidden"><h4 class="text-3xl font-epic font-bold text-white mb-6 border-b border-gray-700 pb-2">Tetapan Sistem</h4><div class="space-y-6">',
             '<div class="bg-black p-4 border border-gray-700"><h5 class="text-pubg-yellow font-bold uppercase mb-3"><i class="fas fa-music"></i> Muzik Latar (BGM)</h5><div class="space-y-4">',
@@ -964,36 +1055,6 @@
                     safeSetVal(`aa-url-${i}`, v.url); safeSetVal(`aa-color-${i}`, v.color);
                 });
             }
-
-            // ADMIN BLOG GENERATOR (Dynamically adds an empty slot for new post)
-            const blogList = document.getElementById('admin-blog-list');
-            if(blogList) {
-                let currentBlog = data.blog ? JSON.parse(JSON.stringify(data.blog)) : [];
-                currentBlog.push({}); // Tambah 1 slot kosong untuk buat post baru
-
-                blogList.innerHTML = '';
-                currentBlog.forEach((b, i) => {
-                    const block = document.createElement('div');
-                    block.className = 'p-4 border border-gray-700 bg-black/50';
-                    const displayDate = b.date ? b.date : 'Auto-jana semasa simpan';
-                    block.innerHTML = `
-                        <h5 class="text-pubg-yellow font-bold uppercase mb-2 border-b border-gray-800 pb-1">Artikel ${i+1} ${!b.id ? '(Tulis Artikel Baru Di Sini)' : ''}</h5>
-                        <input type="hidden" id="ab-id-${i}">
-                        <input type="hidden" id="ab-date-${i}">
-                        <input type="hidden" id="ab-timestamp-${i}">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
-                            <div><label class="text-[10px] text-gray-400 uppercase">Tajuk Artikel</label><input type="text" id="ab-title-${i}" placeholder="Tajuk..." class="w-full bg-pubg-dark border border-gray-600 text-white p-2 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text"></div>
-                            <div><label class="text-[10px] text-gray-400 uppercase">Tarikh & Masa Laporan</label><div class="w-full bg-pubg-black border border-gray-800 text-gray-500 p-2 text-sm italic relative z-50">${displayDate}</div></div>
-                            <div class="col-span-1 md:col-span-2"><label class="text-[10px] text-gray-400 uppercase">Hashtag / Kategori (Cth: #Gamer #Tips)</label><input type="text" id="ab-tags-${i}" class="w-full bg-pubg-dark border border-gray-600 text-white p-2 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text"></div>
-                            <div class="col-span-1 md:col-span-2"><label class="text-[10px] text-gray-400 uppercase">Isi Artikel</label><textarea id="ab-content-${i}" class="w-full bg-pubg-dark border border-gray-600 text-white p-2 h-32 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text"></textarea></div>
-                        </div>`;
-                    blogList.appendChild(block);
-                    const fallbackTs = b.date ? (new Date(b.date).getTime() || Date.now()) : Date.now();
-                    safeSetVal(`ab-id-${i}`, b.id); safeSetVal(`ab-title-${i}`, b.title);
-                    safeSetVal(`ab-date-${i}`, b.date); safeSetVal(`ab-tags-${i}`, b.tags);
-                    safeSetVal(`ab-content-${i}`, b.content); safeSetVal(`ab-timestamp-${i}`, b.timestamp || fallbackTs);
-                });
-            }
         }
 
         document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
@@ -1019,12 +1080,17 @@
                 await new Promise(resolve => setTimeout(resolve, 800));
                 if (dbEmail && dbPass && dbEmail === email && dbPass === pass) { isValid = true; }
                 if (isValid) {
-                    isSuperAdmin = true;
+                    window.isSuperAdmin = true;
                     injectAdminModal(); 
                     document.getElementById('loginModal').classList.add('hidden');
                     document.getElementById('adminFloatBtn').classList.remove('hidden'); 
                     safeSetVal('ad-email', email); safeSetVal('ad-pass', pass);
                     if(window.currentGlobalData) { fillAdminForm(window.currentGlobalData); }
+                    
+                    // Force re-render if already on a blog detail page to show edit buttons
+                    if(window.location.hash.startsWith('#blog?id=')) {
+                        window.showFullArticle(window.location.hash.split('=')[1]);
+                    }
                 } else {
                     errorText.textContent = "Kredensial tidak sah!";
                     errorText.classList.remove('hidden'); btn.classList.remove('hidden');
@@ -1037,7 +1103,7 @@
         });
 
         window.saveAdminData = async () => {
-            if(!isSuperAdmin || !currentUser) return;
+            if(!window.isSuperAdmin || !currentUser) return;
             const btn = document.getElementById('btnSaveAdmin');
             btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Menyimpan...`;
             
@@ -1053,59 +1119,41 @@
                     }
                 }
 
-                let newArmory = [];
-                for(let i=0; i<3; i++) {
-                    if(document.getElementById(`aa-title-${i}`)) {
-                        let rawUrl = document.getElementById(`aa-url-${i}`).value.trim();
-                        let cleanUrl = rawUrl;
-                        const ttMatch = rawUrl.match(/video\/(\d+)/);
-                        if (ttMatch && ttMatch[1]) { cleanUrl = ttMatch[1]; } 
-                        else { const numMatch = rawUrl.match(/\d{15,25}/); if (numMatch && numMatch[0]) cleanUrl = numMatch[0]; }
-                        document.getElementById(`aa-url-${i}`).value = cleanUrl;
-                        newArmory.push({
-                            id: `v${i}`, tag: document.getElementById(`aa-tag-${i}`).value,
-                            title: document.getElementById(`aa-title-${i}`).value, url: cleanUrl, color: document.getElementById(`aa-color-${i}`).value
-                        });
-                    }
-                }
+                // SIMPAN BLOG DATA (Hanya untuk ARTIKEL BARU)
+                let newBlog = window.currentGlobalData && window.currentGlobalData.blog ? [...window.currentGlobalData.blog] : [];
+                const newTitle = document.getElementById('ab-title-new').value.trim();
+                
+                if(newTitle !== "") { 
+                    const d = new Date();
+                    const day = String(d.getDate()).padStart(2, '0');
+                    const monthNames = ["Jan", "Feb", "Mac", "Apr", "Mei", "Jun", "Jul", "Ogo", "Sep", "Okt", "Nov", "Dis"];
+                    const month = monthNames[d.getMonth()];
+                    const year = d.getFullYear();
+                    
+                    let hour = d.getHours();
+                    let min = String(d.getMinutes()).padStart(2, '0');
+                    let ampm = hour >= 12 ? 'PM' : 'AM';
+                    hour = hour % 12;
+                    hour = hour ? hour : 12; 
+                    
+                    const dateVal = `${day} ${month} ${year} | ${hour}:${min} ${ampm}`;
+                    const tsVal = d.getTime();
+                    
+                    newBlog.push({
+                        id: `b_${tsVal}`, 
+                        title: newTitle, 
+                        tags: document.getElementById('ab-tags-new').value,
+                        date: dateVal, 
+                        content: document.getElementById('ab-content-new').value,
+                        timestamp: tsVal
+                    });
 
-                // SIMPAN BLOG DATA
-                let newBlog = [];
-                let bIndex = 0;
-                while(document.getElementById(`ab-title-${bIndex}`)) {
-                    const title = document.getElementById(`ab-title-${bIndex}`).value.trim();
-                    if(title !== "") { // Hanya simpan jika ada tajuk (kalau kosong dia delete automatik)
-                        let existingId = document.getElementById(`ab-id-${bIndex}`).value;
-                        let id = existingId ? existingId : `b_${Date.now()}_${bIndex}`;
-                        let dateVal = document.getElementById(`ab-date-${bIndex}`).value;
-                        let tsVal = document.getElementById(`ab-timestamp-${bIndex}`).value;
-                        
-                        // Jana tarikh & masa HANYA jika artikel baru
-                        if(!dateVal) {
-                            const d = new Date();
-                            const day = String(d.getDate()).padStart(2, '0');
-                            const monthNames = ["Jan", "Feb", "Mac", "Apr", "Mei", "Jun", "Jul", "Ogo", "Sep", "Okt", "Nov", "Dis"];
-                            const month = monthNames[d.getMonth()];
-                            const year = d.getFullYear();
-                            
-                            let hour = d.getHours();
-                            let min = String(d.getMinutes()).padStart(2, '0');
-                            let ampm = hour >= 12 ? 'PM' : 'AM';
-                            hour = hour % 12;
-                            hour = hour ? hour : 12; 
-                            
-                            dateVal = `${day} ${month} ${year} | ${hour}:${min} ${ampm}`;
-                            tsVal = d.getTime();
-                        }
-                        
-                        newBlog.push({
-                            id: id, title: title, tags: document.getElementById(`ab-tags-${bIndex}`).value,
-                            date: dateVal, content: document.getElementById(`ab-content-${bIndex}`).value,
-                            timestamp: parseInt(tsVal)
-                        });
-                    }
-                    bIndex++;
+                    // Kosongkan semula form selepas disimpan
+                    document.getElementById('ab-title-new').value = "";
+                    document.getElementById('ab-tags-new').value = "";
+                    document.getElementById('ab-content-new').value = "";
                 }
+                
                 // Susun ikut tarikh & masa paling baru
                 newBlog.sort((a, b) => b.timestamp - a.timestamp);
 
@@ -1141,6 +1189,58 @@
                 document.getElementById('adminPanelModal').classList.add('hidden');
             } catch(err) { window.showCustomAlert("Ralat semasa menyimpan pangkalan data. Sila semak Firestore Rules."); } 
             finally { btn.innerHTML = `Simpan`; }
+        };
+
+        // FUNGSI FIREBASE: EDIT ARTIKEL
+        window.saveEditedArticle = async function() {
+            if(!window.isSuperAdmin || !currentUser) return;
+            const btn = document.getElementById('btnSaveEditBlog');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Menyimpan...`;
+            
+            try {
+                const id = document.getElementById('edit-blog-id').value;
+                const newBlogList = window.currentGlobalData.blog.map(b => {
+                    if (b.id === id) {
+                        return {
+                            id: id,
+                            title: document.getElementById('edit-blog-title').value.trim(),
+                            tags: document.getElementById('edit-blog-tags').value.trim(),
+                            date: document.getElementById('edit-blog-date').value,
+                            timestamp: parseInt(document.getElementById('edit-blog-timestamp').value),
+                            content: document.getElementById('edit-blog-content').value
+                        };
+                    }
+                    return b;
+                });
+                
+                const contentRef = doc(db, 'artifacts', appId, 'public', 'data', 'website_content', 'main_content');
+                await setDoc(contentRef, { blog: newBlogList }, { merge: true });
+                
+                document.getElementById('editArticleModal').classList.add('hidden');
+                window.showCustomAlert("Artikel berjaya dikemas kini!");
+            } catch(e) {
+                window.showCustomAlert("Ralat mengemas kini artikel.");
+            } finally {
+                btn.innerHTML = originalText;
+            }
+        };
+
+        // FUNGSI FIREBASE: PADAM ARTIKEL
+        window.deleteArticle = async function(id) {
+            if(!window.isSuperAdmin || !currentUser) return;
+            if(!confirm("Adakah anda pasti mahu memadam artikel ini secara kekal?")) return;
+            
+            try {
+                const updatedBlog = window.currentGlobalData.blog.filter(b => b.id !== id);
+                const contentRef = doc(db, 'artifacts', appId, 'public', 'data', 'website_content', 'main_content');
+                await setDoc(contentRef, { blog: updatedBlog }, { merge: true });
+                
+                window.showCustomAlert("Artikel berjaya dipadam!");
+                window.location.hash = 'blog';
+            } catch(e) {
+                window.showCustomAlert("Ralat memadam artikel.");
+            }
         };
 
         const chatForm = document.getElementById('chatForm');
