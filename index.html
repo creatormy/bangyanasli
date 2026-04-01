@@ -663,7 +663,7 @@
                 { id: "v1", tag: "Karya Terbaru", title: "Video TikTok Terkini", url: "7617091853246041365", color: "tiktok-pink" }
             ],
             blog: [
-                { id: "b_demo1", title: "Kembali Beraksi di Arena 2026", date: "2026-04-01", tags: "PUBGM, Comeback, SRTEAM", content: "Selepas berehat panjang dari medan tempur, akhirnya saya membuat keputusan untuk kembali beraksi. Misi kali ini berbeza; bukan lagi untuk mengejar piala semata-mata, tetapi untuk membina komuniti yang lebih positif bersama SRTEAM.\n\nNantikan sesi livestream yang akan diaktifkan semula tidak lama lagi. Jumpa di pochinki!" }
+                { id: "b_demo1", title: "Kembali Beraksi di Arena 2026", date: "01 Apr 2026 | 10:00 AM", tags: "PUBGM, Comeback, SRTEAM", content: "Selepas berehat panjang dari medan tempur, akhirnya saya membuat keputusan untuk kembali beraksi. Misi kali ini berbeza; bukan lagi untuk mengejar piala semata-mata, tetapi untuk membina komuniti yang lebih positif bersama SRTEAM.\n\nNantikan sesi livestream yang akan diaktifkan semula tidak lama lagi. Jumpa di pochinki!", timestamp: 1775008800000 }
             ]
         };
 
@@ -975,19 +975,23 @@
                 currentBlog.forEach((b, i) => {
                     const block = document.createElement('div');
                     block.className = 'p-4 border border-gray-700 bg-black/50';
+                    const displayDate = b.date ? b.date : 'Auto-jana semasa simpan';
                     block.innerHTML = `
                         <h5 class="text-pubg-yellow font-bold uppercase mb-2 border-b border-gray-800 pb-1">Artikel ${i+1} ${!b.id ? '(Tulis Artikel Baru Di Sini)' : ''}</h5>
                         <input type="hidden" id="ab-id-${i}">
+                        <input type="hidden" id="ab-date-${i}">
+                        <input type="hidden" id="ab-timestamp-${i}">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
                             <div><label class="text-[10px] text-gray-400 uppercase">Tajuk Artikel</label><input type="text" id="ab-title-${i}" placeholder="Tajuk..." class="w-full bg-pubg-dark border border-gray-600 text-white p-2 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text"></div>
-                            <div><label class="text-[10px] text-gray-400 uppercase">Tarikh (YYYY-MM-DD)</label><input type="date" id="ab-date-${i}" class="w-full bg-pubg-dark border border-gray-600 text-gray-300 p-2 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text" style="color-scheme: dark;"></div>
+                            <div><label class="text-[10px] text-gray-400 uppercase">Tarikh & Masa Laporan</label><div class="w-full bg-pubg-black border border-gray-800 text-gray-500 p-2 text-sm italic relative z-50">${displayDate}</div></div>
                             <div class="col-span-1 md:col-span-2"><label class="text-[10px] text-gray-400 uppercase">Hashtag / Kategori (Cth: #Gamer #Tips)</label><input type="text" id="ab-tags-${i}" class="w-full bg-pubg-dark border border-gray-600 text-white p-2 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text"></div>
                             <div class="col-span-1 md:col-span-2"><label class="text-[10px] text-gray-400 uppercase">Isi Artikel</label><textarea id="ab-content-${i}" class="w-full bg-pubg-dark border border-gray-600 text-white p-2 h-32 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text"></textarea></div>
                         </div>`;
                     blogList.appendChild(block);
+                    const fallbackTs = b.date ? (new Date(b.date).getTime() || Date.now()) : Date.now();
                     safeSetVal(`ab-id-${i}`, b.id); safeSetVal(`ab-title-${i}`, b.title);
                     safeSetVal(`ab-date-${i}`, b.date); safeSetVal(`ab-tags-${i}`, b.tags);
-                    safeSetVal(`ab-content-${i}`, b.content);
+                    safeSetVal(`ab-content-${i}`, b.content); safeSetVal(`ab-timestamp-${i}`, b.timestamp || fallbackTs);
                 });
             }
         }
@@ -1074,17 +1078,36 @@
                         let existingId = document.getElementById(`ab-id-${bIndex}`).value;
                         let id = existingId ? existingId : `b_${Date.now()}_${bIndex}`;
                         let dateVal = document.getElementById(`ab-date-${bIndex}`).value;
-                        if(!dateVal) dateVal = new Date().toISOString().split('T')[0]; // auto letak tarikh hari ini
+                        let tsVal = document.getElementById(`ab-timestamp-${bIndex}`).value;
+                        
+                        // Jana tarikh & masa HANYA jika artikel baru
+                        if(!dateVal) {
+                            const d = new Date();
+                            const day = String(d.getDate()).padStart(2, '0');
+                            const monthNames = ["Jan", "Feb", "Mac", "Apr", "Mei", "Jun", "Jul", "Ogo", "Sep", "Okt", "Nov", "Dis"];
+                            const month = monthNames[d.getMonth()];
+                            const year = d.getFullYear();
+                            
+                            let hour = d.getHours();
+                            let min = String(d.getMinutes()).padStart(2, '0');
+                            let ampm = hour >= 12 ? 'PM' : 'AM';
+                            hour = hour % 12;
+                            hour = hour ? hour : 12; 
+                            
+                            dateVal = `${day} ${month} ${year} | ${hour}:${min} ${ampm}`;
+                            tsVal = d.getTime();
+                        }
                         
                         newBlog.push({
                             id: id, title: title, tags: document.getElementById(`ab-tags-${bIndex}`).value,
-                            date: dateVal, content: document.getElementById(`ab-content-${bIndex}`).value
+                            date: dateVal, content: document.getElementById(`ab-content-${bIndex}`).value,
+                            timestamp: parseInt(tsVal)
                         });
                     }
                     bIndex++;
                 }
-                // Susun ikut tarikh paling baru
-                newBlog.sort((a, b) => new Date(b.date) - new Date(a.date));
+                // Susun ikut tarikh & masa paling baru
+                newBlog.sort((a, b) => b.timestamp - a.timestamp);
 
                 let rawAudioUrl = document.getElementById('ad-bgm-audio').value.trim();
                 let cleanAudioUrl = rawAudioUrl;
