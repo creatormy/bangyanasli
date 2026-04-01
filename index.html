@@ -102,11 +102,10 @@
             </div>
             
             <ul class="hidden md:flex space-x-4 lg:space-x-8 text-lg lg:text-xl font-bold font-epic tracking-wider uppercase mt-1">
-                <li class="lg:hidden"><button onclick="window.location.hash='home'" class="nav-btn px-2 py-1 text-pubg-yellow border-b-2 border-pubg-yellow transition" data-target="home">Beranda</button></li>
+                <li><button onclick="window.location.hash='home'" class="nav-btn px-2 py-1 text-pubg-yellow border-b-2 border-pubg-yellow transition" data-target="home">Beranda</button></li>
                 <li><button onclick="window.location.hash='profile'" class="nav-btn px-2 py-1 text-gray-400 hover:text-white transition" data-target="profile">Profil</button></li>
                 <li><button onclick="window.location.hash='games'" class="nav-btn px-2 py-1 text-gray-400 hover:text-white transition" data-target="games">Riwayat Game</button></li>
                 <li><button onclick="window.location.hash='portfolio'" class="nav-btn px-2 py-1 text-gray-400 hover:text-white transition" data-target="portfolio">Armory</button></li>
-                <li><button onclick="window.location.hash='blog'" class="nav-btn px-2 py-1 text-gray-400 hover:text-white transition" data-target="blog">Mini Blog</button></li>
                 <li class="block lg:hidden"><button onclick="window.location.hash='chat'" class="nav-btn px-2 py-1 text-gray-400 hover:text-white transition" data-target="chat">Chat</button></li>
             </ul>
 
@@ -128,7 +127,6 @@
                 <li><button onclick="window.location.hash='profile'; toggleMobileMenu()" class="w-full py-3 hover:text-pubg-yellow transition bg-pubg-black/50" data-target="profile">Profil</button></li>
                 <li><button onclick="window.location.hash='games'; toggleMobileMenu()" class="w-full py-3 hover:text-pubg-yellow transition bg-pubg-black/50" data-target="games">Riwayat Game</button></li>
                 <li><button onclick="window.location.hash='portfolio'; toggleMobileMenu()" class="w-full py-3 hover:text-pubg-yellow transition bg-pubg-black/50" data-target="portfolio">Armory</button></li>
-                <li><button onclick="window.location.hash='blog'; toggleMobileMenu()" class="w-full py-3 hover:text-pubg-yellow transition bg-pubg-black/50" data-target="blog">Mini Blog</button></li>
                 <li><button onclick="window.location.hash='chat'; toggleMobileMenu()" class="w-full py-4 bg-pubg-yellow text-pubg-black mt-2" data-target="chat">Basecamp Chat</button></li>
             </ul>
         </div>
@@ -181,125 +179,139 @@
         <!-- KANDUNGAN DINAMIK UTAMA -->
         <main class="w-full lg:flex-1 relative min-h-[75vh] min-w-0">
 
-            <!-- 1. HALAMAN BERANDA -->
-            <section id="page-home" class="page-section flex flex-col xl:flex-row items-center justify-between pt-6 xl:pt-16 relative">
-                <div class="xl:w-1/2 space-y-6 xl:space-y-8 text-center xl:text-left z-10 mt-12 xl:mt-0">
-                    <div class="flex flex-wrap justify-center xl:justify-start gap-3 mb-2">
-                        <div class="inline-block px-4 py-1.5 bg-pubg-gray border border-pubg-yellow text-pubg-yellow font-bold uppercase tracking-widest text-sm transform -skew-x-12 shadow-[0_0_10px_rgba(242,169,0,0.2)]">
-                            <div class="transform skew-x-12"><i class="fas fa-satellite-dish mr-2 animate-pulse"></i> Status: Freelance Creator</div>
-                        </div>
-                        <div class="inline-block px-4 py-1.5 bg-gray-800 border border-blue-500 text-blue-400 font-bold uppercase tracking-widest text-sm transform -skew-x-12 shadow-[0_0_10px_rgba(59,130,246,0.2)]">
-                            <div class="transform skew-x-12"><i class="fas fa-shield-alt mr-2"></i> LEADER: SRTEAM</div>
-                        </div>
-                    </div>
-                    
-                    <h2 class="text-6xl md:text-8xl xl:text-[7rem] font-epic font-bold text-white uppercase leading-[0.9] drop-shadow-2xl">
-                        SURVIVAL <br/>
-                        <span class="text-pubg-yellow">MODE: ON</span>
-                    </h2>
-                    
-                    <div class="text-xl text-gray-300 max-w-lg mx-auto xl:mx-0 leading-relaxed font-semibold border-l-4 border-pubg-yellow pl-5 bg-pubg-black/50 py-3" id="display-intro-text">
-                        <i class="fas fa-spinner api-spin text-pubg-yellow"></i> Mengakses Intel...
-                    </div>
-                    
-                    <div class="flex flex-col sm:flex-row justify-center xl:justify-start gap-4 pt-4 flex-wrap">
-                        <button onclick="window.location.hash='games'" class="btn-epic bg-pubg-yellow hover:bg-pubg-orange text-pubg-black px-10 py-4 text-2xl lg:text-3xl font-epic font-bold uppercase shadow-[0_0_20px_rgba(242,169,0,0.5)]">
-                            <div><i class="fas fa-crosshairs"></i> Lihat Misi (Game)</div>
-                        </button>
-                        <button onclick="window.location.hash='portfolio'" class="btn-epic bg-pubg-gray border border-gray-500 hover:border-pubg-yellow text-white px-10 py-4 text-2xl lg:text-3xl font-epic font-bold uppercase">
-                            <div><i class="fab fa-tiktok text-tiktok-blue"></i> Rakaman Aksi</div>
-                        </button>
-                        <button onclick="window.location.hash='chat'" class="btn-epic bg-gray-800 border border-blue-500 hover:border-blue-400 text-white px-10 py-4 text-2xl lg:text-3xl font-epic font-bold uppercase shadow-[0_0_15px_rgba(59,130,246,0.3)] lg:hidden">
-                            <div><i class="fas fa-bolt text-pubg-yellow"></i> Basecamp Chat</div>
-                        </button>
-                    </div>
+            <!-- HALAMAN BERANDA (MINI BLOG) -->
+            <section id="page-home" class="page-section flex flex-col w-full pt-6 xl:pt-12 relative">
+                <div class="mb-12 text-center">
+                    <h3 class="text-6xl lg:text-7xl font-epic font-bold text-white uppercase tracking-wider drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">Mini <span class="text-pubg-yellow">Blog</span></h3>
+                    <p class="text-gray-400 mt-3 uppercase font-bold tracking-widest text-base lg:text-lg">Pandangan, Tips, & Perjalanan Terkini</p>
+                </div>
+                <div id="blog-container" class="w-full max-w-4xl mx-auto flex flex-col gap-6">
+                    <div class="text-center text-pubg-yellow text-2xl font-epic animate-pulse"><i class="fas fa-satellite-dish"></i> Menghubungi Pangkalan Data...</div>
+                </div>
+            </section>
 
-                    <div class="flex flex-wrap justify-center xl:justify-start gap-2 sm:gap-3 pt-5 pb-2">
-                        <a href="https://tiktok.com/@bangyanasli" target="_blank" title="TikTok" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-tiktok-pink text-gray-400 hover:text-tiktok-pink flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg"><i class="fab fa-tiktok"></i></a>
-                        <a href="https://youtube.com/@bangyanasli" target="_blank" title="YouTube" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-yt-red text-gray-400 hover:text-yt-red flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg"><i class="fab fa-youtube"></i></a>
-                        <a href="https://instagram.com/bangyanasli" target="_blank" title="Instagram" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-pink-500 text-gray-400 hover:text-pink-500 flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg"><i class="fab fa-instagram"></i></a>
-                        <a href="https://twitter.com/bangyanasli" target="_blank" title="Twitter / X" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-blue-400 text-gray-400 hover:text-blue-400 flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg"><i class="fab fa-twitter"></i></a>
-                        <a href="https://facebook.com/bangyanasli" target="_blank" title="Facebook" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-blue-600 text-gray-400 hover:text-blue-600 flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://discord.gg/bangyanasli" target="_blank" title="Discord" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-indigo-500 text-gray-400 hover:text-indigo-500 flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg"><i class="fab fa-discord"></i></a>
-                        <a href="mailto:cs.bangyan@gmail.com" title="Email" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-pubg-yellow text-gray-400 hover:text-pubg-yellow flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg"><i class="fas fa-envelope"></i></a>
-                    </div>
+            <!-- HALAMAN PROFIL (HERO & INTELIJEN) -->
+            <section id="page-profile" class="page-section hidden flex flex-col w-full pt-6 xl:pt-12 relative">
+                <!-- 1. SEKSYEN HERO -->
+                <div class="flex flex-col xl:flex-row items-center justify-between w-full relative">
+                    <div class="xl:w-1/2 space-y-6 xl:space-y-8 text-center xl:text-left z-10 mt-12 xl:mt-0">
+                        <div class="flex flex-wrap justify-center xl:justify-start gap-3 mb-2">
+                            <div class="inline-block px-4 py-1.5 bg-pubg-gray border border-pubg-yellow text-pubg-yellow font-bold uppercase tracking-widest text-sm transform -skew-x-12 shadow-[0_0_10px_rgba(242,169,0,0.2)]">
+                                <div class="transform skew-x-12"><i class="fas fa-satellite-dish mr-2 animate-pulse"></i> Status: Freelance Creator</div>
+                            </div>
+                            <div class="inline-block px-4 py-1.5 bg-gray-800 border border-blue-500 text-blue-400 font-bold uppercase tracking-widest text-sm transform -skew-x-12 shadow-[0_0_10px_rgba(59,130,246,0.2)]">
+                                <div class="transform skew-x-12"><i class="fas fa-shield-alt mr-2"></i> LEADER: SRTEAM</div>
+                            </div>
+                        </div>
+                        
+                        <h2 class="text-6xl md:text-8xl xl:text-[7rem] font-epic font-bold text-white uppercase leading-[0.9] drop-shadow-2xl">
+                            SURVIVAL <br/>
+                            <span class="text-pubg-yellow">MODE: ON</span>
+                        </h2>
+                        
+                        <div class="text-xl text-gray-300 max-w-lg mx-auto xl:mx-0 leading-relaxed font-semibold border-l-4 border-pubg-yellow pl-5 bg-pubg-black/50 py-3" id="display-intro-text">
+                            <i class="fas fa-spinner api-spin text-pubg-yellow"></i> Mengakses Intel...
+                        </div>
+                        
+                        <div class="flex flex-col sm:flex-row justify-center xl:justify-start gap-4 pt-4 flex-wrap">
+                            <button onclick="window.location.hash='games'" class="btn-epic bg-pubg-yellow hover:bg-pubg-orange text-pubg-black px-10 py-4 text-2xl lg:text-3xl font-epic font-bold uppercase shadow-[0_0_20px_rgba(242,169,0,0.5)]">
+                                <div><i class="fas fa-crosshairs"></i> Lihat Misi (Game)</div>
+                            </button>
+                            <button onclick="window.location.hash='portfolio'" class="btn-epic bg-pubg-gray border border-gray-500 hover:border-pubg-yellow text-white px-10 py-4 text-2xl lg:text-3xl font-epic font-bold uppercase">
+                                <div><i class="fab fa-tiktok text-tiktok-blue"></i> Rakaman Aksi</div>
+                            </button>
+                            <button onclick="window.location.hash='chat'" class="btn-epic bg-gray-800 border border-blue-500 hover:border-blue-400 text-white px-10 py-4 text-2xl lg:text-3xl font-epic font-bold uppercase shadow-[0_0_15px_rgba(59,130,246,0.3)] lg:hidden">
+                                <div><i class="fas fa-bolt text-pubg-yellow"></i> Basecamp Chat</div>
+                            </button>
+                        </div>
 
-                    <div class="pt-4 xl:pt-6 flex flex-wrap justify-center xl:justify-start gap-3">
-                        <div class="bg-pubg-dark border-2 border-gray-700 hover:border-yt-red transition p-3 flex items-center gap-3 rounded-sm min-w-[140px] flex-1 sm:flex-none">
-                            <i class="fab fa-youtube text-3xl text-yt-red"></i>
-                            <div class="text-left">
-                                <p class="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Subscribers</p>
-                                <p class="text-xl font-epic font-bold text-white" id="display-stat-ytsubs">...</p>
+                        <div class="flex flex-wrap justify-center xl:justify-start gap-2 sm:gap-3 pt-5 pb-2">
+                            <a href="https://tiktok.com/@bangyanasli" target="_blank" title="TikTok" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-tiktok-pink text-gray-400 hover:text-tiktok-pink flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg"><i class="fab fa-tiktok"></i></a>
+                            <a href="https://youtube.com/@bangyanasli" target="_blank" title="YouTube" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-yt-red text-gray-400 hover:text-yt-red flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg"><i class="fab fa-youtube"></i></a>
+                            <a href="https://instagram.com/bangyanasli" target="_blank" title="Instagram" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-pink-500 text-gray-400 hover:text-pink-500 flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg"><i class="fab fa-instagram"></i></a>
+                            <a href="https://twitter.com/bangyanasli" target="_blank" title="Twitter / X" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-blue-400 text-gray-400 hover:text-blue-400 flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg"><i class="fab fa-twitter"></i></a>
+                            <a href="https://facebook.com/bangyanasli" target="_blank" title="Facebook" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-blue-600 text-gray-400 hover:text-blue-600 flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://discord.gg/bangyanasli" target="_blank" title="Discord" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-indigo-500 text-gray-400 hover:text-indigo-500 flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg"><i class="fab fa-discord"></i></a>
+                            <a href="mailto:cs.bangyan@gmail.com" title="Email" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-pubg-yellow text-gray-400 hover:text-pubg-yellow flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg"><i class="fas fa-envelope"></i></a>
+                        </div>
+
+                        <div class="pt-4 xl:pt-6 flex flex-wrap justify-center xl:justify-start gap-3">
+                            <div class="bg-pubg-dark border-2 border-gray-700 hover:border-yt-red transition p-3 flex items-center gap-3 rounded-sm min-w-[140px] flex-1 sm:flex-none">
+                                <i class="fab fa-youtube text-3xl text-yt-red"></i>
+                                <div class="text-left">
+                                    <p class="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Subscribers</p>
+                                    <p class="text-xl font-epic font-bold text-white" id="display-stat-ytsubs">...</p>
+                                </div>
+                            </div>
+                            <div class="bg-pubg-dark border-2 border-gray-700 hover:border-yt-red transition p-3 flex items-center gap-3 rounded-sm min-w-[140px] flex-1 sm:flex-none">
+                                <i class="fas fa-eye text-3xl text-yt-red"></i>
+                                <div class="text-left">
+                                    <p class="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Total Views</p>
+                                    <p class="text-xl font-epic font-bold text-white" id="display-stat-ytviews">...</p>
+                                </div>
+                            </div>
+                            <div class="bg-pubg-dark border-2 border-gray-700 hover:border-tiktok-blue transition p-3 flex items-center gap-3 rounded-sm min-w-[140px] flex-1 sm:flex-none">
+                                <i class="fas fa-users text-3xl text-tiktok-blue"></i>
+                                <div class="text-left">
+                                    <p class="text-[10px] text-gray-400 uppercase font-bold tracking-widest">TikTok Foll</p>
+                                    <p class="text-xl font-epic font-bold text-white" id="display-stat-ttfoll">...</p>
+                                </div>
+                            </div>
+                            <div class="bg-pubg-dark border-2 border-gray-700 hover:border-tiktok-pink transition p-3 flex items-center gap-3 rounded-sm min-w-[140px] flex-1 sm:flex-none">
+                                <i class="fas fa-heart text-3xl text-tiktok-pink"></i>
+                                <div class="text-left">
+                                    <p class="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Total Likes</p>
+                                    <p class="text-xl font-epic font-bold text-white" id="display-stat-ttlikes">...</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="bg-pubg-dark border-2 border-gray-700 hover:border-yt-red transition p-3 flex items-center gap-3 rounded-sm min-w-[140px] flex-1 sm:flex-none">
-                            <i class="fas fa-eye text-3xl text-yt-red"></i>
-                            <div class="text-left">
-                                <p class="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Total Views</p>
-                                <p class="text-xl font-epic font-bold text-white" id="display-stat-ytviews">...</p>
+                    </div>
+                    
+                    <div class="xl:w-1/2 mt-16 xl:mt-0 flex justify-center relative">
+                        <div class="absolute inset-0 bg-pubg-yellow rounded-full blur-[100px] opacity-20 transform scale-75"></div>
+                        <div class="relative w-[300px] h-[300px] sm:w-[350px] sm:h-[350px] xl:w-[420px] xl:h-[420px]">
+                            <div class="absolute inset-0 border-4 xl:border-8 border-pubg-yellow opacity-50 transform rotate-45 scale-105"></div>
+                            <div class="absolute inset-0 border-4 xl:border-8 border-pubg-gray transform -rotate-12 scale-105"></div>
+                            <div class="w-full h-full overflow-hidden border-4 xl:border-8 border-pubg-black relative z-10 bg-pubg-darker shadow-2xl">
+                                <img id="hero-profile-img" src="" alt="Profil BangYan" class="w-full h-full object-cover filter hover:saturate-150 transition duration-700 transform hover:scale-105 opacity-0">
                             </div>
-                        </div>
-                        <div class="bg-pubg-dark border-2 border-gray-700 hover:border-tiktok-blue transition p-3 flex items-center gap-3 rounded-sm min-w-[140px] flex-1 sm:flex-none">
-                            <i class="fas fa-users text-3xl text-tiktok-blue"></i>
-                            <div class="text-left">
-                                <p class="text-[10px] text-gray-400 uppercase font-bold tracking-widest">TikTok Foll</p>
-                                <p class="text-xl font-epic font-bold text-white" id="display-stat-ttfoll">...</p>
-                            </div>
-                        </div>
-                        <div class="bg-pubg-dark border-2 border-gray-700 hover:border-tiktok-pink transition p-3 flex items-center gap-3 rounded-sm min-w-[140px] flex-1 sm:flex-none">
-                            <i class="fas fa-heart text-3xl text-tiktok-pink"></i>
-                            <div class="text-left">
-                                <p class="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Total Likes</p>
-                                <p class="text-xl font-epic font-bold text-white" id="display-stat-ttlikes">...</p>
+                            <div class="absolute -bottom-6 -right-6 xl:-bottom-8 xl:-right-8 bg-pubg-yellow text-pubg-black px-6 py-2 xl:px-8 xl:py-3 font-epic text-2xl xl:text-4xl font-bold uppercase z-20 shadow-2xl transform -skew-x-12 border-2 border-pubg-dark">
+                                <div class="transform skew-x-12">ID: BANGYAN</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="xl:w-1/2 mt-16 xl:mt-0 flex justify-center relative">
-                    <div class="absolute inset-0 bg-pubg-yellow rounded-full blur-[100px] opacity-20 transform scale-75"></div>
-                    <div class="relative w-[300px] h-[300px] sm:w-[350px] sm:h-[350px] xl:w-[420px] xl:h-[420px]">
-                        <div class="absolute inset-0 border-4 xl:border-8 border-pubg-yellow opacity-50 transform rotate-45 scale-105"></div>
-                        <div class="absolute inset-0 border-4 xl:border-8 border-pubg-gray transform -rotate-12 scale-105"></div>
-                        <div class="w-full h-full overflow-hidden border-4 xl:border-8 border-pubg-black relative z-10 bg-pubg-darker shadow-2xl">
-                            <img id="hero-profile-img" src="" alt="Profil BangYan" class="w-full h-full object-cover filter hover:saturate-150 transition duration-700 transform hover:scale-105 opacity-0">
-                        </div>
-                        <div class="absolute -bottom-6 -right-6 xl:-bottom-8 xl:-right-8 bg-pubg-yellow text-pubg-black px-6 py-2 xl:px-8 xl:py-3 font-epic text-2xl xl:text-4xl font-bold uppercase z-20 shadow-2xl transform -skew-x-12 border-2 border-pubg-dark">
-                            <div class="transform skew-x-12">ID: BANGYAN</div>
+
+                <!-- 2. SEKSYEN PROFIL INTELIJEN -->
+                <div class="w-full mt-24 pt-16 border-t border-pubg-gray/50 relative">
+                    <div class="text-center mb-12">
+                        <h3 class="text-6xl lg:text-7xl font-epic font-bold text-pubg-yellow uppercase tracking-wider">Laporan Intelijen: BangYan</h3>
+                        <p class="text-gray-400 font-bold uppercase tracking-widest text-base lg:text-lg mt-2">Klasifikasi: Dibenarkan</p>
+                    </div>
+                    
+                    <div class="bg-pubg-dark border-2 border-pubg-gray relative overflow-hidden p-8 md:p-12 shadow-2xl">
+                        <div class="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-pubg-yellow"></div>
+                        <div class="absolute top-0 right-0 w-12 h-12 border-t-4 border-r-4 border-pubg-yellow"></div>
+                        <div class="absolute bottom-0 left-0 w-12 h-12 border-b-4 border-l-4 border-pubg-yellow"></div>
+                        <div class="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-pubg-yellow"></div>
+                        
+                        <div class="grid grid-cols-1 xl:grid-cols-2 gap-10" id="display-profile-texts">
+                            <div class="space-y-6 text-gray-300 text-lg leading-relaxed">
+                                <p class="border-l-4 border-pubg-yellow pl-5" id="display-prof-1"><i class="fas fa-spinner api-spin"></i></p>
+                                <p class="bg-pubg-black/60 p-5 border border-red-900/60 text-gray-300 shadow-inner" id="display-prof-2"><i class="fas fa-spinner api-spin"></i></p>
+                                <p id="display-prof-3"><i class="fas fa-spinner api-spin"></i></p>
+                            </div>
+                            <div class="space-y-6 text-gray-300 text-lg leading-relaxed">
+                                <p id="display-prof-4"><i class="fas fa-spinner api-spin"></i></p>
+                                <p id="display-prof-5"><i class="fas fa-spinner api-spin"></i></p>
+                                <p id="display-prof-6"><i class="fas fa-spinner api-spin"></i></p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 2. HALAMAN PROFIL -->
-            <section id="page-profile" class="page-section hidden pt-10">
-                <div class="text-center mb-12">
-                    <h3 class="text-6xl lg:text-7xl font-epic font-bold text-pubg-yellow uppercase tracking-wider">Laporan Intelijen: BangYan</h3>
-                    <p class="text-gray-400 font-bold uppercase tracking-widest text-base lg:text-lg mt-2">Klasifikasi: Dibenarkan</p>
-                </div>
-                
-                <div class="bg-pubg-dark border-2 border-pubg-gray relative overflow-hidden p-8 md:p-12 shadow-2xl">
-                    <div class="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-pubg-yellow"></div>
-                    <div class="absolute top-0 right-0 w-12 h-12 border-t-4 border-r-4 border-pubg-yellow"></div>
-                    <div class="absolute bottom-0 left-0 w-12 h-12 border-b-4 border-l-4 border-pubg-yellow"></div>
-                    <div class="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-pubg-yellow"></div>
-                    
-                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-10" id="display-profile-texts">
-                        <div class="space-y-6 text-gray-300 text-lg leading-relaxed">
-                            <p class="border-l-4 border-pubg-yellow pl-5" id="display-prof-1"><i class="fas fa-spinner api-spin"></i></p>
-                            <p class="bg-pubg-black/60 p-5 border border-red-900/60 text-gray-300 shadow-inner" id="display-prof-2"><i class="fas fa-spinner api-spin"></i></p>
-                            <p id="display-prof-3"><i class="fas fa-spinner api-spin"></i></p>
-                        </div>
-                        <div class="space-y-6 text-gray-300 text-lg leading-relaxed">
-                            <p id="display-prof-4"><i class="fas fa-spinner api-spin"></i></p>
-                            <p id="display-prof-5"><i class="fas fa-spinner api-spin"></i></p>
-                            <p id="display-prof-6"><i class="fas fa-spinner api-spin"></i></p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 3. HALAMAN RIWAYAT GAME -->
+            <!-- HALAMAN RIWAYAT GAME -->
             <section id="page-games" class="page-section hidden pt-10">
                 <div class="mb-12 text-center">
                     <h3 class="text-6xl lg:text-7xl font-epic font-bold text-white uppercase tracking-wider drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">Arsip Misi & Perjalanan</h3>
@@ -310,7 +322,7 @@
                 </div>
             </section>
 
-            <!-- 4. HALAMAN PORTOFOLIO -->
+            <!-- HALAMAN PORTOFOLIO -->
             <section id="page-portfolio" class="page-section hidden pt-10">
                 <div class="text-center mb-12">
                     <h3 class="text-6xl lg:text-7xl font-epic font-bold text-pubg-yellow uppercase tracking-wider drop-shadow-[0_0_15px_rgba(242,169,0,0.5)]">Armory & Rakaman</h3>
@@ -321,22 +333,11 @@
                 </div>
             </section>
 
-            <!-- 5. HALAMAN MINI BLOG (LIST) -->
-            <section id="page-blog" class="page-section hidden pt-10">
-                <div class="mb-12 text-center">
-                    <h3 class="text-6xl lg:text-7xl font-epic font-bold text-white uppercase tracking-wider drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">Mini <span class="text-pubg-yellow">Blog</span></h3>
-                    <p class="text-gray-400 mt-3 uppercase font-bold tracking-widest text-base lg:text-lg">Pandangan, Tips, & Perjalanan Terkini</p>
-                </div>
-                <div id="blog-container" class="w-full max-w-4xl mx-auto flex flex-col gap-6">
-                    <div class="text-center text-pubg-yellow text-2xl font-epic animate-pulse"><i class="fas fa-satellite-dish"></i> Menghubungi Pangkalan Data...</div>
-                </div>
-            </section>
-
-            <!-- 6. HALAMAN BLOG DETAIL (ARTIKEL PENUH) -->
+            <!-- HALAMAN BLOG DETAIL (ARTIKEL PENUH) -->
             <section id="page-blog-detail" class="page-section hidden pt-10">
                 <div class="w-full max-w-4xl mx-auto bg-pubg-dark border-2 border-pubg-gray p-6 lg:p-10 relative shadow-2xl">
-                    <button onclick="window.location.hash='blog'" class="text-pubg-yellow mb-6 hover:text-white transition font-bold uppercase tracking-widest text-sm inline-flex items-center gap-2">
-                        <i class="fas fa-arrow-left"></i> Kembali ke Blog
+                    <button onclick="window.location.hash='home'" class="text-pubg-yellow mb-6 hover:text-white transition font-bold uppercase tracking-widest text-sm inline-flex items-center gap-2">
+                        <i class="fas fa-arrow-left"></i> Kembali ke Beranda
                     </button>
                     
                     <h2 id="blog-detail-title" class="text-4xl md:text-5xl lg:text-6xl font-epic font-bold text-white uppercase mb-4 leading-none"></h2>
@@ -462,7 +463,12 @@
         // SISTEM URL ROUTING (HASH-BASED)
         window.handleHash = function() {
             let hash = window.location.hash.replace('#', '');
-            if (!hash) hash = 'home';
+            
+            if (!hash || hash === 'blog') {
+                hash = 'home';
+                window.location.hash = 'home';
+                return;
+            }
             
             // Logik Artikel Penuh Blog
             if (hash.startsWith('blog?id=')) {
@@ -507,7 +513,7 @@
             
             const article = data.blog.find(b => b.id === id);
             if(!article) {
-                window.location.hash = 'blog';
+                window.location.hash = 'home';
                 return;
             }
             
@@ -552,13 +558,9 @@
                 void targetPage.offsetWidth; targetPage.classList.add('page-enter');
             }
             
-            // Set nav butang 'Blog' aktif
+            // Highlight nothing strictly active on nav, since it's a sub-page
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                if(btn.dataset.target === 'blog') {
-                    btn.className = "nav-btn px-2 py-1 text-pubg-yellow border-b-2 border-pubg-yellow transition";
-                } else {
-                    btn.className = "nav-btn px-2 py-1 text-gray-400 hover:text-white transition";
-                }
+                btn.className = "nav-btn px-2 py-1 text-gray-400 hover:text-white transition";
             });
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -602,6 +604,12 @@
         }
 
         window.closeAdminPanel = function() { document.getElementById('adminPanelModal').classList.add('hidden'); }
+        
+        window.logoutAdmin = function() {
+            localStorage.removeItem('by_admin_email');
+            localStorage.removeItem('by_admin_pass');
+            window.location.reload();
+        }
 
         // BUKA MODAL EDIT ARTIKEL
         window.editArticleUI = function(id) {
@@ -789,7 +797,28 @@
                     if (docSnap.exists()) {
                         window.currentGlobalData = docSnap.data();
                         renderPublicData(window.currentGlobalData);
-                        if(isSuperAdmin) fillAdminForm(window.currentGlobalData);
+                        
+                        // AUTO LOGIN CHECKER (Persistent Login via LocalStorage)
+                        const savedEmail = localStorage.getItem('by_admin_email');
+                        const savedPass = localStorage.getItem('by_admin_pass');
+                        
+                        if (savedEmail && savedPass && !window.isSuperAdmin) {
+                            getDoc(authRef).then(adminSnap => {
+                                if (adminSnap.exists() && adminSnap.data().email === savedEmail && adminSnap.data().pass === savedPass) {
+                                    window.isSuperAdmin = true;
+                                    document.getElementById('adminFloatBtn').classList.remove('hidden');
+                                    injectAdminModal();
+                                    fillAdminForm(window.currentGlobalData);
+                                    
+                                    // Re-render full article IF on article page to show edit buttons
+                                    if(window.location.hash.startsWith('#blog?id=')) {
+                                        window.showFullArticle(window.location.hash.split('=')[1]);
+                                    }
+                                }
+                            });
+                        } else if (window.isSuperAdmin) {
+                            fillAdminForm(window.currentGlobalData);
+                        }
                         
                         // Periksa routing blog pada reload pertama selepas data dimuat
                         if (window.initialLoad) {
@@ -945,8 +974,9 @@
             '<button class="admin-tab-btn text-gray-400 hover:bg-gray-800 py-3 px-4 text-left uppercase tracking-wider text-sm rounded pointer-events-auto cursor-pointer" onclick="switchAdminTab(\'tab-profil\', this)">Profil Intel</button>',
             '<button class="admin-tab-btn text-gray-400 hover:bg-gray-800 py-3 px-4 text-left uppercase tracking-wider text-sm rounded pointer-events-auto cursor-pointer" onclick="switchAdminTab(\'tab-games\', this)">Riwayat Game</button>',
             '<button class="admin-tab-btn text-gray-400 hover:bg-gray-800 py-3 px-4 text-left uppercase tracking-wider text-sm rounded pointer-events-auto cursor-pointer" onclick="switchAdminTab(\'tab-armory\', this)">Armory Video</button>',
-            '<button class="admin-tab-btn text-gray-400 hover:bg-gray-800 py-3 px-4 text-left uppercase tracking-wider text-sm rounded pointer-events-auto cursor-pointer" onclick="switchAdminTab(\'tab-blog\', this)">Mini Blog</button>',
+            '<button class="admin-tab-btn text-gray-400 hover:bg-gray-800 py-3 px-4 text-left uppercase tracking-wider text-sm rounded pointer-events-auto cursor-pointer" onclick="switchAdminTab(\'tab-blog\', this)">Tulis Blog Baru</button>',
             '<button class="admin-tab-btn text-gray-400 hover:bg-gray-800 py-3 px-4 text-left uppercase tracking-wider text-sm rounded pointer-events-auto cursor-pointer" onclick="switchAdminTab(\'tab-sys\', this)">Tetapan Sistem</button>',
+            '<button class="admin-tab-btn text-red-500 hover:bg-red-900/50 py-3 px-4 text-left uppercase tracking-wider text-sm rounded pointer-events-auto cursor-pointer mt-4 border border-red-900/50" onclick="logoutAdmin()"><i class="fas fa-sign-out-alt mr-2"></i> Log Keluar</button>',
             '</div>',
             '<div class="p-4 border-t border-gray-800"><button onclick="saveAdminData()" id="btnSaveAdmin" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-3 uppercase tracking-wider rounded shadow-lg transition pointer-events-auto cursor-pointer">Simpan</button><button onclick="closeAdminPanel()" class="w-full text-gray-500 hover:text-white mt-3 text-xs uppercase pointer-events-auto cursor-pointer">Tutup Panel</button></div>',
             '</div>',
@@ -971,7 +1001,7 @@
             '<div id="tab-games" class="admin-tab-content hidden"><h4 class="text-3xl font-epic font-bold text-white mb-6 border-b border-gray-700 pb-2">Riwayat Game</h4><div id="admin-games-list" class="space-y-6"></div></div>',
             '<div id="tab-armory" class="admin-tab-content hidden"><h4 class="text-3xl font-epic font-bold text-white mb-6 border-b border-gray-700 pb-2">Armory Video</h4><div id="admin-armory-list" class="space-y-6"></div></div>',
             
-            '<div id="tab-blog" class="admin-tab-content hidden"><h4 class="text-3xl font-epic font-bold text-white mb-6 border-b border-gray-700 pb-2">Tulis Artikel Baru</h4><p class="text-xs text-pubg-yellow mb-4"><i class="fas fa-info-circle"></i> Gunakan ruangan ini HANYA untuk menerbitkan artikel baru. Untuk Edit atau Padam artikel sedia ada, sila buka artikel tersebut di halaman Mini Blog.</p><div id="admin-blog-new" class="space-y-6">',
+            '<div id="tab-blog" class="admin-tab-content hidden"><h4 class="text-3xl font-epic font-bold text-white mb-6 border-b border-gray-700 pb-2">Tulis Artikel Baru</h4><p class="text-xs text-pubg-yellow mb-4"><i class="fas fa-info-circle"></i> Gunakan ruangan ini HANYA untuk menerbitkan artikel baru. Untuk Edit atau Padam artikel sedia ada, sila buka artikel tersebut di halaman Beranda.</p><div id="admin-blog-new" class="space-y-6">',
             '<div class="p-4 border border-gray-700 bg-black/50">',
             '<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">',
             '<div><label class="text-[10px] text-gray-400 uppercase">Tajuk Artikel</label><input type="text" id="ab-title-new" placeholder="Tajuk..." class="w-full bg-pubg-dark border border-gray-600 text-white p-2 mt-1 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text"></div>',
@@ -1080,6 +1110,10 @@
                 await new Promise(resolve => setTimeout(resolve, 800));
                 if (dbEmail && dbPass && dbEmail === email && dbPass === pass) { isValid = true; }
                 if (isValid) {
+                    // SIMPAN LOGIN KE LOCAL STORAGE
+                    localStorage.setItem('by_admin_email', email);
+                    localStorage.setItem('by_admin_pass', pass);
+                    
                     window.isSuperAdmin = true;
                     injectAdminModal(); 
                     document.getElementById('loginModal').classList.add('hidden');
@@ -1090,6 +1124,8 @@
                     // Force re-render if already on a blog detail page to show edit buttons
                     if(window.location.hash.startsWith('#blog?id=')) {
                         window.showFullArticle(window.location.hash.split('=')[1]);
+                    } else if (window.location.hash === '#home' || window.location.hash === '') {
+                        renderPublicData(window.currentGlobalData);
                     }
                 } else {
                     errorText.textContent = "Kredensial tidak sah!";
@@ -1115,6 +1151,22 @@
                             id: `g${i}`, title: document.getElementById(`ag-title-${i}`).value,
                             year: document.getElementById(`ag-year-${i}`).value,
                             img: document.getElementById(`ag-img-${i}`).value, desc: document.getElementById(`ag-desc-${i}`).value
+                        });
+                    }
+                }
+
+                let newArmory = [];
+                for(let i=0; i<3; i++) {
+                    if(document.getElementById(`aa-title-${i}`)) {
+                        let rawUrl = document.getElementById(`aa-url-${i}`).value.trim();
+                        let cleanUrl = rawUrl;
+                        const ttMatch = rawUrl.match(/video\/(\d+)/);
+                        if (ttMatch && ttMatch[1]) { cleanUrl = ttMatch[1]; } 
+                        else { const numMatch = rawUrl.match(/\d{15,25}/); if (numMatch && numMatch[0]) cleanUrl = numMatch[0]; }
+                        document.getElementById(`aa-url-${i}`).value = cleanUrl;
+                        newArmory.push({
+                            id: `v${i}`, tag: document.getElementById(`aa-tag-${i}`).value,
+                            title: document.getElementById(`aa-title-${i}`).value, url: cleanUrl, color: document.getElementById(`aa-color-${i}`).value
                         });
                     }
                 }
@@ -1237,7 +1289,7 @@
                 await setDoc(contentRef, { blog: updatedBlog }, { merge: true });
                 
                 window.showCustomAlert("Artikel berjaya dipadam!");
-                window.location.hash = 'blog';
+                window.location.hash = 'home';
             } catch(e) {
                 window.showCustomAlert("Ralat memadam artikel.");
             }
