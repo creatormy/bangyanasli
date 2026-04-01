@@ -74,7 +74,6 @@
         .desktop-img-hover { transition: transform 0.7s ease, filter 0.5s ease; }
         .group:hover .desktop-img-hover { transform: scale(1.05); }
 
-        /* Fix Chrome Autofill Merosakkan Warna Input */
         input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active {
             -webkit-box-shadow: 0 0 0 30px #111111 inset !important;
             -webkit-text-fill-color: white !important;
@@ -87,14 +86,13 @@
 </head>
 <body class="bg-pubg-black text-pubg-light bg-grid flex flex-col min-h-screen selection:bg-pubg-yellow selection:text-black">
 
-    <!-- PLATFORM MUZIK LATAR (BGM) -->
     <audio id="bgmAudio" loop></audio>
     <iframe id="bgmYoutube" class="hidden" width="560" height="315" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen src=""></iframe>
 
     <!-- HEADER & NAV -->
     <header class="sticky top-0 z-40 bg-pubg-black/95 backdrop-blur-md border-b-2 border-pubg-yellow/50 shadow-[0_4px_20px_rgba(242,169,0,0.15)]">
         <nav class="container mx-auto px-4 py-3 flex justify-between items-center relative">
-            <div class="flex items-center space-x-3 cursor-pointer group" onclick="navigateTo('home')" title="Kembali ke Beranda">
+            <div class="flex items-center space-x-3 cursor-pointer group" onclick="window.location.hash='home'" title="Kembali ke Beranda">
                 <div class="w-10 h-10 bg-pubg-yellow text-pubg-black flex items-center justify-center transform -skew-x-12 group-hover:scale-105 transition">
                     <i class="fas fa-crosshairs text-xl transform skew-x-12"></i>
                 </div>
@@ -104,11 +102,12 @@
             </div>
             
             <ul class="hidden md:flex space-x-4 lg:space-x-8 text-lg lg:text-xl font-bold font-epic tracking-wider uppercase mt-1">
-                <li class="lg:hidden"><button onclick="navigateTo('home')" class="nav-btn px-2 py-1 text-pubg-yellow border-b-2 border-pubg-yellow transition">Beranda</button></li>
-                <li><button onclick="navigateTo('profile')" class="nav-btn px-2 py-1 text-gray-400 hover:text-white transition">Profil</button></li>
-                <li><button onclick="navigateTo('games')" class="nav-btn px-2 py-1 text-gray-400 hover:text-white transition">Riwayat Game</button></li>
-                <li><button onclick="navigateTo('portfolio')" class="nav-btn px-2 py-1 text-gray-400 hover:text-white transition">Armory</button></li>
-                <li class="block lg:hidden"><button onclick="navigateTo('chat')" class="nav-btn px-2 py-1 text-gray-400 hover:text-white transition">Chat</button></li>
+                <li class="lg:hidden"><button onclick="window.location.hash='home'" class="nav-btn px-2 py-1 text-pubg-yellow border-b-2 border-pubg-yellow transition" data-target="home">Beranda</button></li>
+                <li><button onclick="window.location.hash='profile'" class="nav-btn px-2 py-1 text-gray-400 hover:text-white transition" data-target="profile">Profil</button></li>
+                <li><button onclick="window.location.hash='games'" class="nav-btn px-2 py-1 text-gray-400 hover:text-white transition" data-target="games">Riwayat Game</button></li>
+                <li><button onclick="window.location.hash='portfolio'" class="nav-btn px-2 py-1 text-gray-400 hover:text-white transition" data-target="portfolio">Armory</button></li>
+                <li><button onclick="window.location.hash='blog'" class="nav-btn px-2 py-1 text-gray-400 hover:text-white transition" data-target="blog">Mini Blog</button></li>
+                <li class="block lg:hidden"><button onclick="window.location.hash='chat'" class="nav-btn px-2 py-1 text-gray-400 hover:text-white transition" data-target="chat">Chat</button></li>
             </ul>
 
             <div class="flex items-center space-x-3">
@@ -125,18 +124,19 @@
         </nav>
         <div id="mobileMenu" class="hidden md:hidden absolute top-full left-0 w-full bg-pubg-dark border-b-2 border-pubg-yellow/50 z-50 shadow-2xl">
             <ul class="flex flex-col text-center font-bold font-epic text-2xl uppercase py-4 space-y-2">
-                <li><button onclick="navigateTo('home'); toggleMobileMenu()" class="w-full py-3 hover:text-pubg-yellow transition bg-pubg-black/50">Beranda</button></li>
-                <li><button onclick="navigateTo('profile'); toggleMobileMenu()" class="w-full py-3 hover:text-pubg-yellow transition bg-pubg-black/50">Profil</button></li>
-                <li><button onclick="navigateTo('games'); toggleMobileMenu()" class="w-full py-3 hover:text-pubg-yellow transition bg-pubg-black/50">Riwayat Game</button></li>
-                <li><button onclick="navigateTo('portfolio'); toggleMobileMenu()" class="w-full py-3 hover:text-pubg-yellow transition bg-pubg-black/50">Armory</button></li>
-                <li><button onclick="navigateTo('chat'); toggleMobileMenu()" class="w-full py-4 bg-pubg-yellow text-pubg-black mt-2">Basecamp Chat</button></li>
+                <li><button onclick="window.location.hash='home'; toggleMobileMenu()" class="w-full py-3 hover:text-pubg-yellow transition bg-pubg-black/50" data-target="home">Beranda</button></li>
+                <li><button onclick="window.location.hash='profile'; toggleMobileMenu()" class="w-full py-3 hover:text-pubg-yellow transition bg-pubg-black/50" data-target="profile">Profil</button></li>
+                <li><button onclick="window.location.hash='games'; toggleMobileMenu()" class="w-full py-3 hover:text-pubg-yellow transition bg-pubg-black/50" data-target="games">Riwayat Game</button></li>
+                <li><button onclick="window.location.hash='portfolio'; toggleMobileMenu()" class="w-full py-3 hover:text-pubg-yellow transition bg-pubg-black/50" data-target="portfolio">Armory</button></li>
+                <li><button onclick="window.location.hash='blog'; toggleMobileMenu()" class="w-full py-3 hover:text-pubg-yellow transition bg-pubg-black/50" data-target="blog">Mini Blog</button></li>
+                <li><button onclick="window.location.hash='chat'; toggleMobileMenu()" class="w-full py-4 bg-pubg-yellow text-pubg-black mt-2" data-target="chat">Basecamp Chat</button></li>
             </ul>
         </div>
     </header>
 
     <div class="flex-grow container mx-auto px-4 lg:px-6 py-8 flex flex-col lg:flex-row gap-8 items-start relative z-10">
         
-        <!-- CHATBOX (SIDEBAR KIRI UNTUK DESKTOP) -->
+        <!-- CHATBOX (SIDEBAR KIRI) -->
         <aside id="page-chat" class="page-section hidden lg:flex flex-col w-full lg:w-[350px] xl:w-[400px] lg:sticky lg:top-[5.5rem] h-[calc(100vh-100px)] lg:h-[calc(100vh-7.5rem)] shrink-0 z-20 lg:order-first">
             <div class="bg-pubg-dark border-2 border-pubg-gray overflow-hidden flex flex-col h-full shadow-[0_0_30px_rgba(0,0,0,0.8)] rounded-lg">
                 <div class="bg-pubg-darker px-5 py-4 border-b-4 border-pubg-gray flex justify-between items-center z-10 shadow-lg">
@@ -183,7 +183,6 @@
 
             <!-- 1. HALAMAN BERANDA -->
             <section id="page-home" class="page-section flex flex-col xl:flex-row items-center justify-between pt-6 xl:pt-16 relative">
-                
                 <div class="xl:w-1/2 space-y-6 xl:space-y-8 text-center xl:text-left z-10 mt-12 xl:mt-0">
                     <div class="flex flex-wrap justify-center xl:justify-start gap-3 mb-2">
                         <div class="inline-block px-4 py-1.5 bg-pubg-gray border border-pubg-yellow text-pubg-yellow font-bold uppercase tracking-widest text-sm transform -skew-x-12 shadow-[0_0_10px_rgba(242,169,0,0.2)]">
@@ -199,47 +198,30 @@
                         <span class="text-pubg-yellow">MODE: ON</span>
                     </h2>
                     
-                    <!-- DINAMIK: Teks Intro -->
                     <div class="text-xl text-gray-300 max-w-lg mx-auto xl:mx-0 leading-relaxed font-semibold border-l-4 border-pubg-yellow pl-5 bg-pubg-black/50 py-3" id="display-intro-text">
                         <i class="fas fa-spinner api-spin text-pubg-yellow"></i> Mengakses Intel...
                     </div>
                     
-                    <!-- Butang Tindakan Utama -->
                     <div class="flex flex-col sm:flex-row justify-center xl:justify-start gap-4 pt-4 flex-wrap">
-                        <button onclick="navigateTo('games')" class="btn-epic bg-pubg-yellow hover:bg-pubg-orange text-pubg-black px-10 py-4 text-2xl lg:text-3xl font-epic font-bold uppercase shadow-[0_0_20px_rgba(242,169,0,0.5)]">
+                        <button onclick="window.location.hash='games'" class="btn-epic bg-pubg-yellow hover:bg-pubg-orange text-pubg-black px-10 py-4 text-2xl lg:text-3xl font-epic font-bold uppercase shadow-[0_0_20px_rgba(242,169,0,0.5)]">
                             <div><i class="fas fa-crosshairs"></i> Lihat Misi (Game)</div>
                         </button>
-                        <button onclick="navigateTo('portfolio')" class="btn-epic bg-pubg-gray border border-gray-500 hover:border-pubg-yellow text-white px-10 py-4 text-2xl lg:text-3xl font-epic font-bold uppercase">
+                        <button onclick="window.location.hash='portfolio'" class="btn-epic bg-pubg-gray border border-gray-500 hover:border-pubg-yellow text-white px-10 py-4 text-2xl lg:text-3xl font-epic font-bold uppercase">
                             <div><i class="fab fa-tiktok text-tiktok-blue"></i> Rakaman Aksi</div>
                         </button>
-                        <button onclick="navigateTo('chat')" class="btn-epic bg-gray-800 border border-blue-500 hover:border-blue-400 text-white px-10 py-4 text-2xl lg:text-3xl font-epic font-bold uppercase shadow-[0_0_15px_rgba(59,130,246,0.3)] lg:hidden">
+                        <button onclick="window.location.hash='chat'" class="btn-epic bg-gray-800 border border-blue-500 hover:border-blue-400 text-white px-10 py-4 text-2xl lg:text-3xl font-epic font-bold uppercase shadow-[0_0_15px_rgba(59,130,246,0.3)] lg:hidden">
                             <div><i class="fas fa-bolt text-pubg-yellow"></i> Basecamp Chat</div>
                         </button>
                     </div>
 
-                    <!-- IKON MEDIA SOSIAL -->
                     <div class="flex flex-wrap justify-center xl:justify-start gap-2 sm:gap-3 pt-5 pb-2">
-                        <a href="https://tiktok.com/@bangyanasli" target="_blank" title="TikTok" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-tiktok-pink text-gray-400 hover:text-tiktok-pink flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg">
-                            <i class="fab fa-tiktok"></i>
-                        </a>
-                        <a href="https://youtube.com/@bangyanasli" target="_blank" title="YouTube" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-yt-red text-gray-400 hover:text-yt-red flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                        <a href="https://instagram.com/bangyanasli" target="_blank" title="Instagram" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-pink-500 text-gray-400 hover:text-pink-500 flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="https://twitter.com/bangyanasli" target="_blank" title="Twitter / X" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-blue-400 text-gray-400 hover:text-blue-400 flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="https://facebook.com/bangyanasli" target="_blank" title="Facebook" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-blue-600 text-gray-400 hover:text-blue-600 flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://discord.gg/bangyanasli" target="_blank" title="Discord" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-indigo-500 text-gray-400 hover:text-indigo-500 flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg">
-                            <i class="fab fa-discord"></i>
-                        </a>
-                        <a href="mailto:cs.bangyan@gmail.com" title="Email" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-pubg-yellow text-gray-400 hover:text-pubg-yellow flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg">
-                            <i class="fas fa-envelope"></i>
-                        </a>
+                        <a href="https://tiktok.com/@bangyanasli" target="_blank" title="TikTok" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-tiktok-pink text-gray-400 hover:text-tiktok-pink flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg"><i class="fab fa-tiktok"></i></a>
+                        <a href="https://youtube.com/@bangyanasli" target="_blank" title="YouTube" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-yt-red text-gray-400 hover:text-yt-red flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg"><i class="fab fa-youtube"></i></a>
+                        <a href="https://instagram.com/bangyanasli" target="_blank" title="Instagram" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-pink-500 text-gray-400 hover:text-pink-500 flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg"><i class="fab fa-instagram"></i></a>
+                        <a href="https://twitter.com/bangyanasli" target="_blank" title="Twitter / X" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-blue-400 text-gray-400 hover:text-blue-400 flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg"><i class="fab fa-twitter"></i></a>
+                        <a href="https://facebook.com/bangyanasli" target="_blank" title="Facebook" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-blue-600 text-gray-400 hover:text-blue-600 flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://discord.gg/bangyanasli" target="_blank" title="Discord" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-indigo-500 text-gray-400 hover:text-indigo-500 flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg"><i class="fab fa-discord"></i></a>
+                        <a href="mailto:cs.bangyan@gmail.com" title="Email" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-pubg-darker border-2 border-gray-700 hover:border-pubg-yellow text-gray-400 hover:text-pubg-yellow flex items-center justify-center text-lg sm:text-xl transition-all duration-300 hover:scale-110 shadow-lg"><i class="fas fa-envelope"></i></a>
                     </div>
 
                     <div class="pt-4 xl:pt-6 flex flex-wrap justify-center xl:justify-start gap-3">
@@ -338,6 +320,36 @@
                     <div class="text-center text-pubg-yellow text-2xl font-epic animate-pulse col-span-full"><i class="fas fa-satellite-dish"></i> Menghubungi Pangkalan Data...</div>
                 </div>
             </section>
+
+            <!-- 5. HALAMAN MINI BLOG (LIST) -->
+            <section id="page-blog" class="page-section hidden pt-10">
+                <div class="mb-12 text-center">
+                    <h3 class="text-6xl lg:text-7xl font-epic font-bold text-white uppercase tracking-wider drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">Mini <span class="text-pubg-yellow">Blog</span></h3>
+                    <p class="text-gray-400 mt-3 uppercase font-bold tracking-widest text-base lg:text-lg">Pandangan, Tips, & Perjalanan Terkini</p>
+                </div>
+                <div id="blog-container" class="w-full max-w-4xl mx-auto flex flex-col gap-6">
+                    <div class="text-center text-pubg-yellow text-2xl font-epic animate-pulse"><i class="fas fa-satellite-dish"></i> Menghubungi Pangkalan Data...</div>
+                </div>
+            </section>
+
+            <!-- 6. HALAMAN BLOG DETAIL (ARTIKEL PENUH) -->
+            <section id="page-blog-detail" class="page-section hidden pt-10">
+                <div class="w-full max-w-4xl mx-auto bg-pubg-dark border-2 border-pubg-gray p-6 lg:p-10 relative shadow-2xl">
+                    <button onclick="window.location.hash='blog'" class="text-pubg-yellow mb-6 hover:text-white transition font-bold uppercase tracking-widest text-sm inline-flex items-center gap-2">
+                        <i class="fas fa-arrow-left"></i> Kembali ke Blog
+                    </button>
+                    
+                    <h2 id="blog-detail-title" class="text-4xl md:text-5xl lg:text-6xl font-epic font-bold text-white uppercase mb-4 leading-none"></h2>
+                    
+                    <div class="flex flex-wrap gap-4 text-xs text-gray-400 font-bold uppercase tracking-widest mb-8 border-b border-gray-700 pb-4">
+                        <span><i class="fas fa-user text-pubg-yellow mr-1"></i> Penulis: BangYan</span>
+                        <span id="blog-detail-date"></span>
+                        <span id="blog-detail-tags" class="text-tiktok-blue"></span>
+                    </div>
+                    
+                    <div id="blog-detail-content" class="text-gray-300 text-lg lg:text-xl leading-relaxed whitespace-pre-wrap font-body"></div>
+                </div>
+            </section>
             
         </main>
     </div>
@@ -402,39 +414,101 @@
         </div>
     </div>
 
-    <!-- WADAH HTML ADMIN PANEL (DIJANA OLEH JAVASCRIPT SECARA RAHSIA) -->
+    <!-- WADAH HTML ADMIN PANEL -->
     <div id="adminPanelContainer"></div>
 
-    <!-- UI SCRIPTS -->
+    <!-- UI & ROUTING SCRIPTS -->
     <script>
         window.showCustomAlert = function(message) {
             document.getElementById('customAlertText').innerText = message;
             document.getElementById('customAlertModal').classList.remove('hidden');
         };
 
-        window.navigateTo = function(pageId) {
+        // SISTEM URL ROUTING (HASH-BASED)
+        window.handleHash = function() {
+            let hash = window.location.hash.replace('#', '');
+            if (!hash) hash = 'home';
+            
+            // Logik Artikel Penuh Blog
+            if (hash.startsWith('blog?id=')) {
+                const id = hash.split('=')[1];
+                window.showFullArticle(id);
+            } else {
+                // Logik Menu Biasa
+                const isDesktop = window.innerWidth >= 1024;
+                document.querySelectorAll('.page-section').forEach(el => {
+                    if (el.id === 'page-chat' && isDesktop) { el.classList.remove('hidden'); el.classList.add('lg:flex'); } 
+                    else { el.classList.add('hidden'); el.classList.remove('page-enter'); }
+                });
+                
+                const targetPage = document.getElementById('page-' + hash);
+                if (targetPage) {
+                    targetPage.classList.remove('hidden');
+                    if (!(targetPage.id === 'page-chat' && isDesktop)) { void targetPage.offsetWidth; targetPage.classList.add('page-enter'); }
+                }
+                
+                // Active Nav State
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    if(btn.dataset.target === hash) {
+                        btn.className = "nav-btn px-2 py-1 text-pubg-yellow border-b-2 border-pubg-yellow transition";
+                    } else {
+                        btn.className = "nav-btn px-2 py-1 text-gray-400 hover:text-white transition";
+                    }
+                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        window.showFullArticle = function(id) {
+            const data = window.currentGlobalData;
+            if(!data || !data.blog) return; // tunggu data masuk
+            
+            const article = data.blog.find(b => b.id === id);
+            if(!article) {
+                window.location.hash = 'blog';
+                return;
+            }
+            
+            // Format Kandungan
+            document.getElementById('blog-detail-title').innerText = article.title;
+            document.getElementById('blog-detail-date').innerHTML = `<i class="fas fa-calendar-alt text-pubg-yellow mr-1"></i> ${article.date}`;
+            document.getElementById('blog-detail-tags').innerHTML = `<i class="fas fa-hashtag text-tiktok-blue mr-1"></i> ${article.tags}`;
+            
+            // Allow new lines to be converted to <br> securely
+            const formattedContent = article.content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
+            document.getElementById('blog-detail-content').innerHTML = formattedContent;
+            
+            // Tunjuk Halaman
             const isDesktop = window.innerWidth >= 1024;
             document.querySelectorAll('.page-section').forEach(el => {
                 if (el.id === 'page-chat' && isDesktop) { el.classList.remove('hidden'); el.classList.add('lg:flex'); } 
                 else { el.classList.add('hidden'); el.classList.remove('page-enter'); }
             });
-            const targetPage = document.getElementById('page-' + pageId);
-            if (targetPage) {
+            const targetPage = document.getElementById('page-blog-detail');
+            if(targetPage) {
                 targetPage.classList.remove('hidden');
-                if (!(targetPage.id === 'page-chat' && isDesktop)) { void targetPage.offsetWidth; targetPage.classList.add('page-enter'); }
+                void targetPage.offsetWidth; targetPage.classList.add('page-enter');
             }
+            
+            // Set nav butang 'Blog' aktif
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                if(btn.getAttribute('onclick').includes(pageId)) btn.className = "nav-btn px-2 py-1 text-pubg-yellow border-b-2 border-pubg-yellow transition";
-                else btn.className = "nav-btn px-2 py-1 text-gray-400 hover:text-white transition";
+                if(btn.dataset.target === 'blog') {
+                    btn.className = "nav-btn px-2 py-1 text-pubg-yellow border-b-2 border-pubg-yellow transition";
+                } else {
+                    btn.className = "nav-btn px-2 py-1 text-gray-400 hover:text-white transition";
+                }
             });
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        // Dengar pertukaran URL
+        window.addEventListener('hashchange', window.handleHash);
 
         window.addEventListener('resize', () => {
             const isDesktop = window.innerWidth >= 1024;
             const chatSection = document.getElementById('page-chat');
             if (isDesktop) { if (chatSection) { chatSection.classList.remove('hidden'); chatSection.classList.add('lg:flex'); } } 
-            else { const chatBtnActive = document.querySelector('.nav-btn[onclick*="chat"].text-pubg-yellow'); if (!chatBtnActive && chatSection) chatSection.classList.add('hidden'); }
+            else { const chatBtnActive = document.querySelector('.nav-btn[data-target="chat"].text-pubg-yellow'); if (!chatBtnActive && chatSection) chatSection.classList.add('hidden'); }
         });
 
         window.toggleMobileMenu = function() { 
@@ -449,13 +523,11 @@
 
         window.switchAdminTab = function(tabId, btnElement) {
             document.querySelectorAll('.admin-tab-content').forEach(el => {
-                el.classList.add('hidden');
-                el.classList.remove('block');
+                el.classList.add('hidden'); el.classList.remove('block');
             });
             const selectedTab = document.getElementById(tabId);
             if(selectedTab) {
-                selectedTab.classList.remove('hidden');
-                selectedTab.classList.add('block');
+                selectedTab.classList.remove('hidden'); selectedTab.classList.add('block');
             }
             document.querySelectorAll('.admin-tab-btn').forEach(btn => {
                 btn.classList.remove('bg-pubg-yellow', 'text-black', 'font-bold');
@@ -467,73 +539,42 @@
             }
         }
 
-        window.closeAdminPanel = function() {
-            document.getElementById('adminPanelModal').classList.add('hidden');
-        }
+        window.closeAdminPanel = function() { document.getElementById('adminPanelModal').classList.add('hidden'); }
 
         window.testAudioPlayer = function() {
             const inputEl = document.getElementById('ad-bgm-audio');
             let rawAudioUrl = inputEl.value.trim();
-            if(!rawAudioUrl) {
-                window.showCustomAlert("Sila masukkan pautan Audio MP3/Dropbox dahulu.");
-                return;
-            }
-
+            if(!rawAudioUrl) { window.showCustomAlert("Sila masukkan pautan Audio MP3/Dropbox dahulu."); return; }
             let cleanAudioUrl = rawAudioUrl;
-            
-            // SMART EXTRACTOR DROPBOX
-            if (rawAudioUrl.includes('dropbox.com')) {
-                cleanAudioUrl = rawAudioUrl.replace('dl=0', 'raw=1').replace('?dl=0', '?raw=1');
-                inputEl.value = cleanAudioUrl;
-            } else if (rawAudioUrl.includes('drive.google.com') || rawAudioUrl.includes('docs.google.com')) {
-                window.showCustomAlert("AMARAN KESELAMATAN BROWSER:\nLaman web mungkin tidak dapat memainkan sesetengah fail MP3 dari Google Drive. Jika audio gagal dimainkan, sila tukar kepada pautan DROPBOX atau YOUTUBE untuk BGM anda.");
-            }
-
+            if (rawAudioUrl.includes('dropbox.com')) { cleanAudioUrl = rawAudioUrl.replace('dl=0', 'raw=1').replace('?dl=0', '?raw=1'); inputEl.value = cleanAudioUrl; }
             const player = document.getElementById('audio-test-player');
-            player.src = cleanAudioUrl;
-            player.classList.remove('hidden');
-            player.play().catch(e => {
-                console.error("Audio Test Error: ", e);
-                window.showCustomAlert("Gagal memainkan audio! Sila pastikan pautan adalah fail MP3 yang menyokong penstriman terus (Direct Stream).");
-            });
+            player.src = cleanAudioUrl; player.classList.remove('hidden');
+            player.play().catch(e => { window.showCustomAlert("Gagal memainkan audio! Sila pastikan pautan adalah fail MP3 yang menyokong penstriman terus."); });
         }
 
         window.testYoutubeEmbed = function() {
             const inputEl = document.getElementById('ad-bgm-yt');
             let ytRaw = inputEl.value.trim();
-            if(!ytRaw) {
-                window.showCustomAlert("Sila masukkan Kod Iframe penuh atau pautan YouTube dahulu.");
-                return;
-            }
-            
+            if(!ytRaw) { window.showCustomAlert("Sila masukkan Kod Iframe penuh atau pautan YouTube dahulu."); return; }
             let finalUrl = ytRaw;
             const srcMatch = ytRaw.match(/src="([^"]+)"/);
-            if (srcMatch && srcMatch[1]) {
-                finalUrl = srcMatch[1];
-                inputEl.value = finalUrl; 
-            } else if (!finalUrl.includes('embed/')) {
+            if (srcMatch && srcMatch[1]) { finalUrl = srcMatch[1]; inputEl.value = finalUrl; } 
+            else if (!finalUrl.includes('embed/')) {
                 const ytRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i;
                 const match = finalUrl.match(ytRegex);
-                if(match && match[1]) {
-                    finalUrl = `https://www.youtube.com/embed/${match[1]}`;
-                    inputEl.value = finalUrl;
-                }
+                if(match && match[1]) { finalUrl = `https://www.youtube.com/embed/${match[1]}`; inputEl.value = finalUrl; }
             }
-
             const container = document.getElementById('yt-test-container');
             const iframe = document.getElementById('yt-test-iframe');
             if(finalUrl) {
                 let testUrl = finalUrl;
-                if (!testUrl.includes('autoplay=')) {
-                    testUrl += testUrl.includes('?') ? '&autoplay=1' : '?autoplay=1';
-                }
-                container.classList.remove('hidden');
-                iframe.src = testUrl;
+                if (!testUrl.includes('autoplay=')) { testUrl += testUrl.includes('?') ? '&autoplay=1' : '?autoplay=1'; }
+                container.classList.remove('hidden'); iframe.src = testUrl;
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            window.navigateTo('home');
+            window.handleHash(); // Route pertama kali jalan
             const bgmAudio = document.getElementById('bgmAudio');
             const bgmYt = document.getElementById('bgmYoutube');
             const musicToggleBtn = document.getElementById('musicToggle');
@@ -545,42 +586,28 @@
                 musicToggleBtn.addEventListener('click', () => {
                     const musicIcon = document.getElementById('musicIcon');
                     const musicText = document.getElementById('musicText');
-                    
                     if (isMusicPlaying) {
-                        // PAUSE MUSIC
-                        if(window.bgmType === 'audio') { 
-                            if(bgmAudio) bgmAudio.pause(); 
-                        } else { 
-                            if (bgmYt && bgmYt.contentWindow) { bgmYt.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*'); }
-                        }
-                        
+                        if(window.bgmType === 'audio') { if(bgmAudio) bgmAudio.pause(); } 
+                        else { if (bgmYt && bgmYt.contentWindow) bgmYt.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*'); }
                         musicIcon.className = "fas fa-play text-sm"; musicText.innerText = "MAIN BGM";
                         musicToggleBtn.classList.remove('bg-pubg-yellow/10', 'border-pubg-yellow'); musicToggleBtn.classList.replace('text-white', 'text-pubg-yellow');
                         isMusicPlaying = false;
                     } else {
-                        // PLAY MUSIC
                         if(window.bgmType === 'audio') { 
                             if (bgmAudio && bgmAudio.src && bgmAudio.src !== window.location.href) {
                                 bgmAudio.play().then(() => {
                                     musicIcon.className = "fas fa-pause text-sm"; musicText.innerText = "JEDA BGM";
                                     musicToggleBtn.classList.add('bg-pubg-yellow/10', 'border-pubg-yellow'); musicToggleBtn.classList.replace('text-pubg-yellow', 'text-white');
                                     isMusicPlaying = true;
-                                }).catch(e => { 
-                                    console.error("Audio block:", e); 
-                                    window.showCustomAlert("Peringatan: Polisi pelayar web (Browser CORS) menyekat audio ini daripada dimainkan (biasanya terjadi jika ia dari Google Drive). Anda disarankan menukar BGM kepada YouTube atau pautan Dropbox.");
-                                }); 
-                            } else {
-                                window.showCustomAlert("Sila tetapkan pautan audio di Admin Panel terlebih dahulu.");
-                            }
+                                }).catch(e => window.showCustomAlert("Pelayar web menyekat audio ini.")); 
+                            } else { window.showCustomAlert("Sila tetapkan pautan audio di Admin Panel terlebih dahulu."); }
                         } else { 
                             if (bgmYt && bgmYt.src && bgmYt.src !== window.location.href) {
                                 bgmYt.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*'); 
                                 musicIcon.className = "fas fa-pause text-sm"; musicText.innerText = "JEDA BGM";
                                 musicToggleBtn.classList.add('bg-pubg-yellow/10', 'border-pubg-yellow'); musicToggleBtn.classList.replace('text-pubg-yellow', 'text-white');
                                 isMusicPlaying = true;
-                            } else {
-                                window.showCustomAlert("Sila tetapkan pautan YouTube di Admin Panel terlebih dahulu.");
-                            }
+                            } else { window.showCustomAlert("Sila tetapkan pautan YouTube di Admin Panel terlebih dahulu."); }
                         }
                     }
                 });
@@ -594,9 +621,6 @@
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // ======================================================================
-        // SILA LENGKAPKAN KONFIGURASI FIREBASE ANDA UNTUK GITHUB PAGES DI BAWAH
-        // ======================================================================
         const myFirebaseConfig = {
             apiKey: "AIzaSyAv27koq_RpjbsQ3MMXD_phxfJsIbEoncA",
             authDomain: "bangyanasli.firebaseapp.com",
@@ -616,8 +640,8 @@
         let isSuperAdmin = false;
         window.currentGlobalData = null;
         window.bgmType = 'audio';
+        window.initialLoad = true; // Penanda load pertama untuk routing
 
-        // DATA KANDUNGAN DEFAULT DIKEKALKAN SEPERTI BIASA
         const DEFAULT_CONTENT = {
             hero: { profileImg: "https://i.imgur.com/odvfubA.png" },
             bgm: { type: "audio", audioUrl: "https://cdn.pixabay.com/download/audio/2022/10/18/audio_31c2730e64.mp3?filename=epic-trailer-music-122971.mp3", ytId: "" },
@@ -633,22 +657,16 @@
             },
             games: [
                 { id: "pubgm", title: "PUBG Mobile", year: "2018 - 2026 (Comeback)", desc: "Tempat jatuh lagikan dikenang. Mula bermain secara hardcore pada 2018. Saya kembali bermain *pure* dan bersih untuk *have fun* bersama komuniti.", img: "https://tse1.mm.bing.net/th?q=PUBG+Mobile+game+wallpaper+HD&w=800&h=800&c=7" },
-                { id: "ns", title: "PUBG: New State", year: "Berhenti: 2023", desc: "Zaman kegemilangan kompetitif saya. Pernah aktif menjadi Content Creator untuk game ini dan beraksi di turnamen berprestij anjuran Sultanriq.", img: "https://tse1.mm.bing.net/th?q=PUBG+New+State+Mobile+game+wallpaper+HD&w=800&h=800&c=7" },
-                { id: "hok", title: "Honor of Kings", year: "Berhenti: 2024", desc: "Saya mula menjejaki dunia MOBA ini semenjak tarikh rilis global pertamanya. Namun begitu, terpaksa meletakkan titik noktah kerana sistem pengurusan komuniti yang wujud unsur terlalu pilih kasih.", img: "https://tse1.mm.bing.net/th?q=Honor+of+Kings+global+game+wallpaper+HD&w=800&h=800&c=7" },
-                { id: "delta", title: "Delta Force Mobile", year: "Berhenti Rasmi: 2025", desc: "Menyertai sebagai Content Creator dan juga Admin Komuniti sewaktu pelancaran globalnya. Meletak jawatan kerana pengurusan admin Garena teramatlah buruk dan banyak janji kosong.", img: "https://tse1.mm.bing.net/th?q=Delta+Force+Hawk+Ops+game+wallpaper+HD&w=800&h=800&c=7" },
-                { id: "apex", title: "Apex Legends Mobile", year: "Kenangan Kompetitif", desc: "Game FPS dengan pergerakan paling laju yang pernah saya mainkan! Sempat terjun ke arena kompetitif dan menyertai turnamen Apex Mobile.", img: "https://tse1.mm.bing.net/th?q=Apex+Legends+Mobile+game+wallpaper+HD&w=800&h=800&c=7" },
-                { id: "sausage", title: "Sausage Man", year: "Santai & Klasik", desc: "Battle Royale yang sangat unik dan melucukan. Di sebalik watak sosej yang nampak comel, pertempurannya menuntut *skill* yang bukan calang-calang.", img: "https://tse1.mm.bing.net/th?q=Sausage+Man+game+wallpaper+HD&w=800&h=800&c=7" },
-                { id: "blood", title: "Blood Strike", year: "Aksi Fast-Paced", desc: "Sebuah game FPS alternatif bergaya pantas seakan-akan Warzone. Banyak menghabiskan masa di arena ini untuk merasai suasana pertempuran jarak dekat yang sengit.", img: "https://tse1.mm.bing.net/th?q=Blood+Strike+Mobile+game+wallpaper+HD&w=800&h=800&c=7" },
-                { id: "rust", title: "RUST MOBILE", year: "SASARAN UTAMA (MENUNGGU)", desc: "Menunggu dengan penuh sabar pelancaran game *hardcore survival* ini. Bersedia untuk menjarah (*loot*), bina *base*, dan rancang *raid* gila-gila bersama skuad SRTEAM!", img: "https://tse1.mm.bing.net/th?q=Rust+Console+Mobile+game+wallpaper+HD&w=1600&h=800&c=7" }
+                { id: "ns", title: "PUBG: New State", year: "Berhenti: 2023", desc: "Zaman kegemilangan kompetitif saya. Pernah aktif menjadi Content Creator untuk game ini dan beraksi di turnamen berprestij anjuran Sultanriq.", img: "https://tse1.mm.bing.net/th?q=PUBG+New+State+Mobile+game+wallpaper+HD&w=800&h=800&c=7" }
             ],
             armory: [
-                { id: "v1", tag: "Karya Terbaru", title: "Video TikTok Terkini", url: "7617091853246041365", color: "tiktok-pink" },
-                { id: "v2", tag: "Misi: Taktikal", title: "Gameplay Delta Force", url: "7506925712666807560", color: "blue-600" },
-                { id: "v3", tag: "Supply Drop", title: "Racun Affiliate", url: "7554205318562024722", color: "shopee-orange" }
+                { id: "v1", tag: "Karya Terbaru", title: "Video TikTok Terkini", url: "7617091853246041365", color: "tiktok-pink" }
+            ],
+            blog: [
+                { id: "b_demo1", title: "Kembali Beraksi di Arena 2026", date: "2026-04-01", tags: "PUBGM, Comeback, SRTEAM", content: "Selepas berehat panjang dari medan tempur, akhirnya saya membuat keputusan untuk kembali beraksi. Misi kali ini berbeza; bukan lagi untuk mengejar piala semata-mata, tetapi untuk membina komuniti yang lebih positif bersama SRTEAM.\n\nNantikan sesi livestream yang akan diaktifkan semula tidak lama lagi. Jumpa di pochinki!" }
             ]
         };
 
-        // KREDENSIAL DIBUANG DARI SINI: Hanya kata laluan SEMENTARA untuk setup kali pertama.
         const DEFAULT_ADMIN = { email: "admin@bangyan.com", pass: "admin1234" };
 
         const initSystem = async () => {
@@ -672,7 +690,6 @@
                 if(guestNameInput) {
                     guestNameInput.value = "Player_" + Math.floor(Math.random() * 900 + 100);
                 }
-                
                 loadMessages();
                 await initializeDatabase(); 
             } else { currentUser = null; }
@@ -683,21 +700,28 @@
             try {
                 const authRef = doc(db, 'artifacts', appId, 'public', 'data', 'admin_config', 'main_config');
                 const authSnap = await getDoc(authRef);
-                if (!authSnap.exists()) await setDoc(authRef, DEFAULT_ADMIN);
+                if (!authSnap.exists()) await setDoc(authRef, DEFAULT_ADMIN, { merge: true });
 
                 const contentRef = doc(db, 'artifacts', appId, 'public', 'data', 'website_content', 'main_content');
                 const contentSnap = await getDoc(contentRef);
-                if (!contentSnap.exists()) await setDoc(contentRef, DEFAULT_CONTENT);
+                if (!contentSnap.exists()) await setDoc(contentRef, DEFAULT_CONTENT, { merge: true });
 
                 onSnapshot(contentRef, (docSnap) => {
                     if (docSnap.exists()) {
                         window.currentGlobalData = docSnap.data();
                         renderPublicData(window.currentGlobalData);
                         if(isSuperAdmin) fillAdminForm(window.currentGlobalData);
+                        
+                        // Periksa routing blog pada reload pertama selepas data dimuat
+                        if (window.initialLoad) {
+                            if(window.location.hash.includes('blog?id=')) {
+                                window.handleHash(); 
+                            }
+                            window.initialLoad = false;
+                        }
                     }
-                }, (error) => console.error("Ralat bacaan langsung:", error));
+                });
             } catch (err) {
-                console.warn("Menggunakan data lalai.");
                 window.currentGlobalData = DEFAULT_CONTENT;
                 renderPublicData(DEFAULT_CONTENT);
             }
@@ -707,24 +731,18 @@
             const heroImg = document.getElementById('hero-profile-img');
             if(heroImg && data.hero) { heroImg.src = data.hero.profileImg; heroImg.classList.remove('opacity-0'); }
             
-            // Logik Pemain BGM yang dibaiki
             if(data.bgm) {
                 window.bgmType = data.bgm.type || 'audio';
                 const bgmAudio = document.getElementById('bgmAudio');
                 const bgmYt = document.getElementById('bgmYoutube');
                 if (window.bgmType === 'audio') {
-                    if(bgmAudio && bgmAudio.src !== data.bgm.audioUrl) {
-                        bgmAudio.src = data.bgm.audioUrl || '';
-                        bgmAudio.load(); 
-                    }
+                    if(bgmAudio && bgmAudio.src !== data.bgm.audioUrl) { bgmAudio.src = data.bgm.audioUrl || ''; bgmAudio.load(); }
                     if(bgmYt) bgmYt.src = '';
                 } else {
                     if(bgmAudio) bgmAudio.src = '';
                     if(bgmYt && data.bgm.ytId) {
                         let finalSrc = data.bgm.ytId;
-                        if (!finalSrc.includes('enablejsapi=1')) {
-                            finalSrc += finalSrc.includes('?') ? '&enablejsapi=1&autoplay=0&loop=1' : '?enablejsapi=1&autoplay=0&loop=1';
-                        }
+                        if (!finalSrc.includes('enablejsapi=1')) { finalSrc += finalSrc.includes('?') ? '&enablejsapi=1&autoplay=0&loop=1' : '?enablejsapi=1&autoplay=0&loop=1'; }
                         bgmYt.src = finalSrc;
                     }
                 }
@@ -747,6 +765,30 @@
                 const p6 = document.getElementById('display-prof-6'); if(p6) p6.innerHTML = data.profile.p6;
             }
 
+            // RENDER BLOG
+            const blogContainer = document.getElementById('blog-container');
+            if(blogContainer && data.blog) {
+                let blogHTML = '';
+                if(data.blog.length === 0) {
+                    blogHTML = '<div class="text-center text-gray-500 font-bold uppercase mt-10">Tiada artikel intel diterbitkan buat masa ini.</div>';
+                } else {
+                    data.blog.forEach(b => {
+                        const shortText = b.content.length > 200 ? escapeHTML(b.content.substring(0, 200)) + '...' : escapeHTML(b.content);
+                        blogHTML += `
+                        <div class="bg-pubg-darker border-l-4 border-pubg-gray p-6 hover:border-pubg-yellow transition duration-300 cursor-pointer group shadow-lg" onclick="window.location.hash='blog?id=${b.id}'">
+                            <h4 class="text-3xl font-epic font-bold text-white uppercase group-hover:text-pubg-yellow transition">${b.title}</h4>
+                            <div class="flex flex-wrap gap-3 text-xs text-gray-400 font-bold uppercase tracking-widest mt-2 mb-4">
+                                <span><i class="fas fa-calendar-alt text-pubg-yellow"></i> ${b.date}</span>
+                                <span class="text-tiktok-blue"><i class="fas fa-hashtag"></i> ${b.tags}</span>
+                            </div>
+                            <p class="text-gray-400 text-base leading-relaxed font-body">${shortText}</p>
+                            <span class="text-pubg-yellow text-sm font-bold uppercase mt-4 inline-block tracking-widest group-hover:underline">Baca Laporan Penuh &raquo;</span>
+                        </div>`;
+                    });
+                }
+                blogContainer.innerHTML = blogHTML;
+            }
+
             const gamesContainer = document.getElementById('games-container');
             if(gamesContainer && data.games) {
                 let gamesHTML = '';
@@ -758,14 +800,10 @@
                     if(isAnticipation) {
                         gamesHTML += `
                         <div class="relative overflow-hidden border-2 border-tiktok-pink shadow-[0_0_25px_rgba(238,29,82,0.4)] bg-pubg-black mt-10 group rounded-xl">
-                            <div class="absolute inset-0 opacity-30 group-hover:opacity-50 transition duration-700">
-                                <img src="${game.img}" alt="Wallpaper" class="w-full h-full object-cover desktop-img-hover">
-                            </div>
+                            <div class="absolute inset-0 opacity-30 group-hover:opacity-50 transition duration-700"><img src="${game.img}" alt="Wallpaper" class="w-full h-full object-cover desktop-img-hover"></div>
                             <div class="relative z-10 p-6 md:p-10 flex flex-col xl:flex-row gap-8 items-center bg-gradient-to-r from-pubg-black via-pubg-black/85 to-transparent">
                                 <div class="flex-grow xl:w-1/2">
-                                    <div class="inline-block px-4 py-1.5 bg-tiktok-pink text-white text-xs lg:text-sm font-bold uppercase tracking-widest mb-4 shadow-lg rounded-sm">
-                                        <i class="fas fa-fire mr-1"></i> ${game.year}
-                                    </div>
+                                    <div class="inline-block px-4 py-1.5 bg-tiktok-pink text-white text-xs lg:text-sm font-bold uppercase tracking-widest mb-4 shadow-lg rounded-sm"><i class="fas fa-fire mr-1"></i> ${game.year}</div>
                                     <h4 class="text-5xl md:text-6xl font-epic font-bold text-white uppercase mb-4 drop-shadow-[0_2px_10px_rgba(0,0,0,1)]">${game.title}</h4>
                                     <p class="text-gray-300 mt-2 text-xl drop-shadow-lg font-semibold leading-relaxed border-l-4 border-tiktok-pink pl-4 bg-black/40 py-2">${game.desc}</p>
                                 </div>
@@ -803,9 +841,7 @@
                     armoryHTML += `
                     <div class="bg-pubg-dark border-2 border-${bColor} p-4 relative group hover:border-${hColor} transition duration-500 hover:-translate-y-2 shadow-xl">
                         <div class="absolute -top-4 left-6 bg-${vid.color} text-white font-epic text-2xl px-4 uppercase font-bold transform -skew-x-12 shadow-lg"><div class="transform skew-x-12">${vid.tag}</div></div>
-                        <div class="mt-6 mb-4 text-center">
-                            <h5 class="font-bold text-white text-xl uppercase font-epic tracking-wide">${vid.title}</h5>
-                        </div>
+                        <div class="mt-6 mb-4 text-center"><h5 class="font-bold text-white text-xl uppercase font-epic tracking-wide">${vid.title}</h5></div>
                         <div class="tiktok-embed-container h-[500px] border-2 border-gray-700 group-hover:border-${hColor} transition duration-500 rounded-lg">
                             <iframe src="https://www.tiktok.com/embed/v2/${vid.url}" allow="encrypted-media" allowfullscreen></iframe>
                         </div>
@@ -825,11 +861,13 @@
             '<button class="admin-tab-btn text-gray-400 hover:bg-gray-800 py-3 px-4 text-left uppercase tracking-wider text-sm rounded pointer-events-auto cursor-pointer" onclick="switchAdminTab(\'tab-profil\', this)">Profil Intel</button>',
             '<button class="admin-tab-btn text-gray-400 hover:bg-gray-800 py-3 px-4 text-left uppercase tracking-wider text-sm rounded pointer-events-auto cursor-pointer" onclick="switchAdminTab(\'tab-games\', this)">Riwayat Game</button>',
             '<button class="admin-tab-btn text-gray-400 hover:bg-gray-800 py-3 px-4 text-left uppercase tracking-wider text-sm rounded pointer-events-auto cursor-pointer" onclick="switchAdminTab(\'tab-armory\', this)">Armory Video</button>',
+            '<button class="admin-tab-btn text-gray-400 hover:bg-gray-800 py-3 px-4 text-left uppercase tracking-wider text-sm rounded pointer-events-auto cursor-pointer" onclick="switchAdminTab(\'tab-blog\', this)">Mini Blog</button>',
             '<button class="admin-tab-btn text-gray-400 hover:bg-gray-800 py-3 px-4 text-left uppercase tracking-wider text-sm rounded pointer-events-auto cursor-pointer" onclick="switchAdminTab(\'tab-sys\', this)">Tetapan Sistem</button>',
             '</div>',
             '<div class="p-4 border-t border-gray-800"><button onclick="saveAdminData()" id="btnSaveAdmin" class="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-3 uppercase tracking-wider rounded shadow-lg transition pointer-events-auto cursor-pointer">Simpan</button><button onclick="closeAdminPanel()" class="w-full text-gray-500 hover:text-white mt-3 text-xs uppercase pointer-events-auto cursor-pointer">Tutup Panel</button></div>',
             '</div>',
             '<div class="flex-grow bg-pubg-dark overflow-y-auto relative p-6 md:p-10 pointer-events-auto z-50">',
+            
             '<div id="tab-beranda" class="admin-tab-content block"><h4 class="text-3xl font-epic font-bold text-white mb-6 border-b border-gray-700 pb-2">Beranda & Statistik</h4><div class="space-y-4">',
             '<div><label class="text-xs text-gray-400 uppercase font-bold">URL Gambar Profil</label><input type="text" id="ad-heroimg" class="w-full bg-black border border-gray-600 text-white p-3 mt-1 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text" autocomplete="off"></div>',
             '<div><label class="text-xs text-gray-400 uppercase font-bold">Teks Intro</label><textarea id="ad-intro" class="w-full bg-black border border-gray-600 text-white p-3 mt-1 h-24 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text" autocomplete="off"></textarea></div>',
@@ -837,6 +875,7 @@
             '<div><label class="text-xs text-gray-400 uppercase font-bold">YT Views</label><input type="text" id="ad-ytviews" class="w-full bg-black border border-gray-600 text-white p-2 mt-1 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text" autocomplete="off"></div>',
             '<div><label class="text-xs text-gray-400 uppercase font-bold">TT Followers</label><input type="text" id="ad-ttfoll" class="w-full bg-black border border-gray-600 text-white p-2 mt-1 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text" autocomplete="off"></div>',
             '<div><label class="text-xs text-gray-400 uppercase font-bold">TT Likes</label><input type="text" id="ad-ttlikes" class="w-full bg-black border border-gray-600 text-white p-2 mt-1 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text" autocomplete="off"></div></div></div></div>',
+            
             '<div id="tab-profil" class="admin-tab-content hidden"><h4 class="text-3xl font-epic font-bold text-white mb-6 border-b border-gray-700 pb-2">Profil Intel</h4><div class="space-y-4">',
             '<div><label class="text-xs text-gray-400 uppercase font-bold">Perenggan 1</label><textarea id="ad-p1" class="w-full bg-black border border-gray-600 text-white p-3 mt-1 h-20 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text" autocomplete="off"></textarea></div>',
             '<div><label class="text-xs text-gray-400 uppercase font-bold">Perenggan 2 (Merah)</label><textarea id="ad-p2" class="w-full bg-black border border-gray-600 text-white p-3 mt-1 h-24 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text" autocomplete="off"></textarea></div>',
@@ -844,8 +883,11 @@
             '<div><label class="text-xs text-gray-400 uppercase font-bold">Perenggan 4</label><textarea id="ad-p4" class="w-full bg-black border border-gray-600 text-white p-3 mt-1 h-20 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text" autocomplete="off"></textarea></div>',
             '<div><label class="text-xs text-gray-400 uppercase font-bold">Perenggan 5</label><textarea id="ad-p5" class="w-full bg-black border border-gray-600 text-white p-3 mt-1 h-24 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text" autocomplete="off"></textarea></div>',
             '<div><label class="text-xs text-gray-400 uppercase font-bold">Perenggan 6 (Kini)</label><textarea id="ad-p6" class="w-full bg-black border border-gray-600 text-white p-3 mt-1 h-24 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text" autocomplete="off"></textarea></div></div></div>',
+            
             '<div id="tab-games" class="admin-tab-content hidden"><h4 class="text-3xl font-epic font-bold text-white mb-6 border-b border-gray-700 pb-2">Riwayat Game</h4><div id="admin-games-list" class="space-y-6"></div></div>',
             '<div id="tab-armory" class="admin-tab-content hidden"><h4 class="text-3xl font-epic font-bold text-white mb-6 border-b border-gray-700 pb-2">Armory Video</h4><div id="admin-armory-list" class="space-y-6"></div></div>',
+            '<div id="tab-blog" class="admin-tab-content hidden"><h4 class="text-3xl font-epic font-bold text-white mb-6 border-b border-gray-700 pb-2">Mini Blog</h4><p class="text-xs text-pubg-yellow mb-4"><i class="fas fa-info-circle"></i> Untuk padam artikel, biarkan kotak Tajuk kosong dan tekan Simpan.</p><div id="admin-blog-list" class="space-y-6"></div></div>',
+            
             '<div id="tab-sys" class="admin-tab-content hidden"><h4 class="text-3xl font-epic font-bold text-white mb-6 border-b border-gray-700 pb-2">Tetapan Sistem</h4><div class="space-y-6">',
             '<div class="bg-black p-4 border border-gray-700"><h5 class="text-pubg-yellow font-bold uppercase mb-3"><i class="fas fa-music"></i> Muzik Latar (BGM)</h5><div class="space-y-4">',
             '<div><label class="text-xs text-gray-400 uppercase font-bold">Jenis BGM</label><select id="ad-bgm-type" class="w-full bg-pubg-darker border border-gray-600 text-white p-2 mt-1 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-pointer"><option value="audio">Pautan Langsung / Dropbox (MP3)</option><option value="youtube">YouTube (Kod Iframe Penuh)</option></select></div>',
@@ -860,41 +902,27 @@
 
         function injectAdminModal() {
             const container = document.getElementById('adminPanelContainer');
-            if(container && container.innerHTML === "") {
-                container.innerHTML = adminChunks.join('');
-            }
+            if(container && container.innerHTML === "") { container.innerHTML = adminChunks.join(''); }
         }
 
-        function safeSetVal(id, val) {
-            const el = document.getElementById(id);
-            if(el) el.value = val || '';
-        }
+        function safeSetVal(id, val) { const el = document.getElementById(id); if(el) el.value = val || ''; }
 
         function fillAdminForm(data) {
             if(!document.getElementById('adminPanelModal')) return; 
             
             if(data.stats) {
-                safeSetVal('ad-ytsubs', data.stats.ytSubs);
-                safeSetVal('ad-ytviews', data.stats.ytViews);
-                safeSetVal('ad-ttfoll', data.stats.ttFoll);
-                safeSetVal('ad-ttlikes', data.stats.ttLikes);
+                safeSetVal('ad-ytsubs', data.stats.ytSubs); safeSetVal('ad-ytviews', data.stats.ytViews);
+                safeSetVal('ad-ttfoll', data.stats.ttFoll); safeSetVal('ad-ttlikes', data.stats.ttLikes);
             }
             if(data.hero) safeSetVal('ad-heroimg', data.hero.profileImg);
-            
             if(data.bgm) {
                 safeSetVal('ad-bgm-type', data.bgm.type || 'audio');
-                safeSetVal('ad-bgm-audio', data.bgm.audioUrl || '');
-                safeSetVal('ad-bgm-yt', data.bgm.ytId || '');
+                safeSetVal('ad-bgm-audio', data.bgm.audioUrl || ''); safeSetVal('ad-bgm-yt', data.bgm.ytId || '');
             }
-
             if(data.profile) {
-                safeSetVal('ad-intro', data.profile.intro);
-                safeSetVal('ad-p1', data.profile.p1);
-                safeSetVal('ad-p2', data.profile.p2);
-                safeSetVal('ad-p3', data.profile.p3);
-                safeSetVal('ad-p4', data.profile.p4);
-                safeSetVal('ad-p5', data.profile.p5);
-                safeSetVal('ad-p6', data.profile.p6);
+                safeSetVal('ad-intro', data.profile.intro); safeSetVal('ad-p1', data.profile.p1);
+                safeSetVal('ad-p2', data.profile.p2); safeSetVal('ad-p3', data.profile.p3);
+                safeSetVal('ad-p4', data.profile.p4); safeSetVal('ad-p5', data.profile.p5); safeSetVal('ad-p6', data.profile.p6);
             }
 
             const gamesList = document.getElementById('admin-games-list');
@@ -910,13 +938,10 @@
                             <div><label class="text-[10px] text-gray-400 uppercase">Badge/Tahun</label><input type="text" id="ag-year-${i}" class="w-full bg-pubg-dark border border-gray-600 text-white p-2 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text"></div>
                             <div class="col-span-1 md:col-span-2"><label class="text-[10px] text-gray-400 uppercase">URL Gambar</label><input type="text" id="ag-img-${i}" class="w-full bg-pubg-dark border border-gray-600 text-white p-2 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text"></div>
                             <div class="col-span-1 md:col-span-2"><label class="text-[10px] text-gray-400 uppercase">Deskripsi</label><textarea id="ag-desc-${i}" class="w-full bg-pubg-dark border border-gray-600 text-white p-2 h-16 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text"></textarea></div>
-                        </div>
-                    `;
+                        </div>`;
                     gamesList.appendChild(block);
-                    safeSetVal(`ag-title-${i}`, g.title);
-                    safeSetVal(`ag-year-${i}`, g.year);
-                    safeSetVal(`ag-img-${i}`, g.img);
-                    safeSetVal(`ag-desc-${i}`, g.desc);
+                    safeSetVal(`ag-title-${i}`, g.title); safeSetVal(`ag-year-${i}`, g.year);
+                    safeSetVal(`ag-img-${i}`, g.img); safeSetVal(`ag-desc-${i}`, g.desc);
                 });
             }
 
@@ -933,13 +958,36 @@
                             <div><label class="text-[10px] text-gray-400 uppercase">Tajuk Video</label><input type="text" id="aa-title-${i}" class="w-full bg-pubg-dark border border-gray-600 text-white p-2 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text"></div>
                             <div><label class="text-[10px] text-gray-400 uppercase">ID Video TikTok</label><input type="text" id="aa-url-${i}" class="w-full bg-pubg-dark border border-gray-600 text-white p-2 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text"></div>
                             <input type="hidden" id="aa-color-${i}">
-                        </div>
-                    `;
+                        </div>`;
                     armoryList.appendChild(block);
-                    safeSetVal(`aa-tag-${i}`, v.tag);
-                    safeSetVal(`aa-title-${i}`, v.title);
-                    safeSetVal(`aa-url-${i}`, v.url);
-                    safeSetVal(`aa-color-${i}`, v.color);
+                    safeSetVal(`aa-tag-${i}`, v.tag); safeSetVal(`aa-title-${i}`, v.title);
+                    safeSetVal(`aa-url-${i}`, v.url); safeSetVal(`aa-color-${i}`, v.color);
+                });
+            }
+
+            // ADMIN BLOG GENERATOR (Dynamically adds an empty slot for new post)
+            const blogList = document.getElementById('admin-blog-list');
+            if(blogList) {
+                let currentBlog = data.blog ? JSON.parse(JSON.stringify(data.blog)) : [];
+                currentBlog.push({}); // Tambah 1 slot kosong untuk buat post baru
+
+                blogList.innerHTML = '';
+                currentBlog.forEach((b, i) => {
+                    const block = document.createElement('div');
+                    block.className = 'p-4 border border-gray-700 bg-black/50';
+                    block.innerHTML = `
+                        <h5 class="text-pubg-yellow font-bold uppercase mb-2 border-b border-gray-800 pb-1">Artikel ${i+1} ${!b.id ? '(Tulis Artikel Baru Di Sini)' : ''}</h5>
+                        <input type="hidden" id="ab-id-${i}">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                            <div><label class="text-[10px] text-gray-400 uppercase">Tajuk Artikel</label><input type="text" id="ab-title-${i}" placeholder="Tajuk..." class="w-full bg-pubg-dark border border-gray-600 text-white p-2 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text"></div>
+                            <div><label class="text-[10px] text-gray-400 uppercase">Tarikh (YYYY-MM-DD)</label><input type="date" id="ab-date-${i}" class="w-full bg-pubg-dark border border-gray-600 text-gray-300 p-2 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text" style="color-scheme: dark;"></div>
+                            <div class="col-span-1 md:col-span-2"><label class="text-[10px] text-gray-400 uppercase">Hashtag / Kategori (Cth: #Gamer #Tips)</label><input type="text" id="ab-tags-${i}" class="w-full bg-pubg-dark border border-gray-600 text-white p-2 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text"></div>
+                            <div class="col-span-1 md:col-span-2"><label class="text-[10px] text-gray-400 uppercase">Isi Artikel</label><textarea id="ab-content-${i}" class="w-full bg-pubg-dark border border-gray-600 text-white p-2 h-32 focus:border-pubg-yellow outline-none relative z-50 pointer-events-auto select-auto cursor-text"></textarea></div>
+                        </div>`;
+                    blogList.appendChild(block);
+                    safeSetVal(`ab-id-${i}`, b.id); safeSetVal(`ab-title-${i}`, b.title);
+                    safeSetVal(`ab-date-${i}`, b.date); safeSetVal(`ab-tags-${i}`, b.tags);
+                    safeSetVal(`ab-content-${i}`, b.content);
                 });
             }
         }
@@ -952,65 +1000,40 @@
             const btn = document.getElementById('btnLoginSubmit');
             const loading = document.getElementById('loginLoading');
 
-            btn.classList.add('hidden');
-            loading.classList.remove('hidden');
-            errorText.classList.add('hidden');
-
-            let isValid = false;
-            let dbEmail = null;
-            let dbPass = null;
+            btn.classList.add('hidden'); loading.classList.remove('hidden'); errorText.classList.add('hidden');
+            let isValid = false, dbEmail = null, dbPass = null;
 
             try {
                 if (currentUser) {
                     const authRef = doc(db, 'artifacts', appId, 'public', 'data', 'admin_config', 'main_config');
                     const authSnap = await getDoc(authRef);
-                    if (authSnap.exists()) {
-                        dbEmail = authSnap.data().email;
-                        dbPass = authSnap.data().pass;
-                    }
+                    if (authSnap.exists()) { dbEmail = authSnap.data().email; dbPass = authSnap.data().pass; }
                 }
             } catch(dbErr) {}
 
             try {
                 await new Promise(resolve => setTimeout(resolve, 800));
-                
-                // SISTEM KINI HANYA MEMBACA DARI DATABASE FIRESTORE
-                if (dbEmail && dbPass && dbEmail === email && dbPass === pass) {
-                    isValid = true;
-                }
-
+                if (dbEmail && dbPass && dbEmail === email && dbPass === pass) { isValid = true; }
                 if (isValid) {
                     isSuperAdmin = true;
                     injectAdminModal(); 
-                    
                     document.getElementById('loginModal').classList.add('hidden');
                     document.getElementById('adminFloatBtn').classList.remove('hidden'); 
-                    
-                    safeSetVal('ad-email', email);
-                    safeSetVal('ad-pass', pass);
-                    
-                    if(window.currentGlobalData) {
-                        fillAdminForm(window.currentGlobalData);
-                    }
+                    safeSetVal('ad-email', email); safeSetVal('ad-pass', pass);
+                    if(window.currentGlobalData) { fillAdminForm(window.currentGlobalData); }
                 } else {
                     errorText.textContent = "Kredensial tidak sah!";
-                    errorText.classList.remove('hidden');
-                    btn.classList.remove('hidden');
+                    errorText.classList.remove('hidden'); btn.classList.remove('hidden');
                 }
                 loading.classList.add('hidden');
-                
             } catch(err) { 
-                console.error("Ralat Log Masuk:", err);
                 errorText.textContent = "Ralat sistem log masuk!";
-                errorText.classList.remove('hidden');
-                btn.classList.remove('hidden');
-                loading.classList.add('hidden');
+                errorText.classList.remove('hidden'); btn.classList.remove('hidden'); loading.classList.add('hidden');
             }
         });
 
         window.saveAdminData = async () => {
             if(!isSuperAdmin || !currentUser) return;
-            
             const btn = document.getElementById('btnSaveAdmin');
             btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Menyimpan...`;
             
@@ -1019,11 +1042,9 @@
                 for(let i=0; i<8; i++) {
                     if(document.getElementById(`ag-title-${i}`)) {
                         newGames.push({
-                            id: `g${i}`,
-                            title: document.getElementById(`ag-title-${i}`).value,
+                            id: `g${i}`, title: document.getElementById(`ag-title-${i}`).value,
                             year: document.getElementById(`ag-year-${i}`).value,
-                            img: document.getElementById(`ag-img-${i}`).value,
-                            desc: document.getElementById(`ag-desc-${i}`).value
+                            img: document.getElementById(`ag-img-${i}`).value, desc: document.getElementById(`ag-desc-${i}`).value
                         });
                     }
                 }
@@ -1033,118 +1054,70 @@
                     if(document.getElementById(`aa-title-${i}`)) {
                         let rawUrl = document.getElementById(`aa-url-${i}`).value.trim();
                         let cleanUrl = rawUrl;
-                        
                         const ttMatch = rawUrl.match(/video\/(\d+)/);
-                        if (ttMatch && ttMatch[1]) {
-                            cleanUrl = ttMatch[1];
-                        } else {
-                            const numMatch = rawUrl.match(/\d{15,25}/); 
-                            if (numMatch && numMatch[0]) cleanUrl = numMatch[0];
-                        }
-
+                        if (ttMatch && ttMatch[1]) { cleanUrl = ttMatch[1]; } 
+                        else { const numMatch = rawUrl.match(/\d{15,25}/); if (numMatch && numMatch[0]) cleanUrl = numMatch[0]; }
                         document.getElementById(`aa-url-${i}`).value = cleanUrl;
-
                         newArmory.push({
-                            id: `v${i}`,
-                            tag: document.getElementById(`aa-tag-${i}`).value,
-                            title: document.getElementById(`aa-title-${i}`).value,
-                            url: cleanUrl,
-                            color: document.getElementById(`aa-color-${i}`).value
+                            id: `v${i}`, tag: document.getElementById(`aa-tag-${i}`).value,
+                            title: document.getElementById(`aa-title-${i}`).value, url: cleanUrl, color: document.getElementById(`aa-color-${i}`).value
                         });
                     }
                 }
 
+                // SIMPAN BLOG DATA
+                let newBlog = [];
+                let bIndex = 0;
+                while(document.getElementById(`ab-title-${bIndex}`)) {
+                    const title = document.getElementById(`ab-title-${bIndex}`).value.trim();
+                    if(title !== "") { // Hanya simpan jika ada tajuk (kalau kosong dia delete automatik)
+                        let existingId = document.getElementById(`ab-id-${bIndex}`).value;
+                        let id = existingId ? existingId : `b_${Date.now()}_${bIndex}`;
+                        let dateVal = document.getElementById(`ab-date-${bIndex}`).value;
+                        if(!dateVal) dateVal = new Date().toISOString().split('T')[0]; // auto letak tarikh hari ini
+                        
+                        newBlog.push({
+                            id: id, title: title, tags: document.getElementById(`ab-tags-${bIndex}`).value,
+                            date: dateVal, content: document.getElementById(`ab-content-${bIndex}`).value
+                        });
+                    }
+                    bIndex++;
+                }
+                // Susun ikut tarikh paling baru
+                newBlog.sort((a, b) => new Date(b.date) - new Date(a.date));
+
                 let rawAudioUrl = document.getElementById('ad-bgm-audio').value.trim();
                 let cleanAudioUrl = rawAudioUrl;
-                if (rawAudioUrl.includes('dropbox.com')) {
-                    cleanAudioUrl = rawAudioUrl.replace('dl=0', 'raw=1').replace('?dl=0', '?raw=1');
-                    document.getElementById('ad-bgm-audio').value = cleanAudioUrl;
-                }
+                if (rawAudioUrl.includes('dropbox.com')) { cleanAudioUrl = rawAudioUrl.replace('dl=0', 'raw=1').replace('?dl=0', '?raw=1'); document.getElementById('ad-bgm-audio').value = cleanAudioUrl; }
 
-                let ytRaw = document.getElementById('ad-bgm-yt').value.trim();
-                let ytClean = ytRaw;
+                let ytRaw = document.getElementById('ad-bgm-yt').value.trim(); let ytClean = ytRaw;
                 const ytSrcMatch = ytRaw.match(/src="([^"]+)"/);
-                if (ytSrcMatch && ytSrcMatch[1]) {
-                    ytClean = ytSrcMatch[1];
-                } else if (!ytClean.includes('embed/')) {
+                if (ytSrcMatch && ytSrcMatch[1]) { ytClean = ytSrcMatch[1]; } 
+                else if (!ytClean.includes('embed/')) {
                     const ytRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i;
-                    const ytMatch = ytClean.match(ytRegex);
-                    if(ytMatch && ytMatch[1]) {
-                        ytClean = `https://www.youtube.com/embed/${ytMatch[1]}`;
-                    }
+                    const ytMatch = ytClean.match(ytRegex); if(ytMatch && ytMatch[1]) { ytClean = `https://www.youtube.com/embed/${ytMatch[1]}`; }
                 }
                 document.getElementById('ad-bgm-yt').value = ytClean;
 
                 const contentRef = doc(db, 'artifacts', appId, 'public', 'data', 'website_content', 'main_content');
-                // TUKAR updateDoc KEPADA setDoc DENGAN { merge: true }
                 await setDoc(contentRef, {
                     hero: { profileImg: document.getElementById('ad-heroimg').value },
-                    bgm: { 
-                        type: document.getElementById('ad-bgm-type').value,
-                        audioUrl: cleanAudioUrl,
-                        ytId: ytClean
-                    },
-                    stats: {
-                        ytSubs: document.getElementById('ad-ytsubs').value,
-                        ytViews: document.getElementById('ad-ytviews').value,
-                        ttFoll: document.getElementById('ad-ttfoll').value,
-                        ttLikes: document.getElementById('ad-ttlikes').value
-                    },
-                    profile: {
-                        intro: document.getElementById('ad-intro').value,
-                        p1: document.getElementById('ad-p1').value,
-                        p2: document.getElementById('ad-p2').value,
-                        p3: document.getElementById('ad-p3').value,
-                        p4: document.getElementById('ad-p4').value,
-                        p5: document.getElementById('ad-p5').value,
-                        p6: document.getElementById('ad-p6').value
-                    },
-                    games: newGames,
-                    armory: newArmory
+                    bgm: { type: document.getElementById('ad-bgm-type').value, audioUrl: cleanAudioUrl, ytId: ytClean },
+                    stats: { ytSubs: document.getElementById('ad-ytsubs').value, ytViews: document.getElementById('ad-ytviews').value, ttFoll: document.getElementById('ad-ttfoll').value, ttLikes: document.getElementById('ad-ttlikes').value },
+                    profile: { intro: document.getElementById('ad-intro').value, p1: document.getElementById('ad-p1').value, p2: document.getElementById('ad-p2').value, p3: document.getElementById('ad-p3').value, p4: document.getElementById('ad-p4').value, p5: document.getElementById('ad-p5').value, p6: document.getElementById('ad-p6').value },
+                    games: newGames, armory: newArmory, blog: newBlog
                 }, { merge: true });
 
-                const newEmail = document.getElementById('ad-email').value;
-                const newPass = document.getElementById('ad-pass').value;
+                const newEmail = document.getElementById('ad-email').value; const newPass = document.getElementById('ad-pass').value;
                 if(newEmail && newPass) {
                     const authRef = doc(db, 'artifacts', appId, 'public', 'data', 'admin_config', 'main_config');
-                    // TUKAR updateDoc KEPADA setDoc DENGAN { merge: true }
                     await setDoc(authRef, { email: newEmail, pass: newPass }, { merge: true });
                 }
 
                 window.showCustomAlert("Pangkalan Data berjaya dikemas kini!");
                 document.getElementById('adminPanelModal').classList.add('hidden');
-            } catch(err) { 
-                console.error(err); 
-                window.showCustomAlert("Ralat semasa menyimpan pangkalan data. Sila semak Firestore Rules."); 
-            } finally {
-                btn.innerHTML = `Simpan`;
-            }
-        };
-
-        function listenToLiveStatus() {
-            const statusRef = collection(db, 'artifacts', appId, 'public', 'data', 'stream_status');
-            onSnapshot(statusRef, (snapshot) => {
-                let isLive = false;
-                snapshot.forEach((doc) => {
-                    if (doc.id === 'main_status') { isLive = doc.data().isLive; }
-                });
-                window.currentLiveStatus = isLive;
-                
-                const liveBadge = document.getElementById('liveBadgeContainer');
-                if (liveBadge) {
-                    if(isLive) liveBadge.classList.remove('hidden');
-                    else liveBadge.classList.add('hidden');
-                }
-            });
-        }
-
-        window.toggleLiveStatus = async () => {
-            if (!currentUser) return;
-            const newStatus = !window.currentLiveStatus;
-            try {
-                const statusDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'stream_status', 'main_status');
-                await setDoc(statusDocRef, { isLive: newStatus, updatedAt: serverTimestamp() });
-            } catch (error) {}
+            } catch(err) { window.showCustomAlert("Ralat semasa menyimpan pangkalan data. Sila semak Firestore Rules."); } 
+            finally { btn.innerHTML = `Simpan`; }
         };
 
         const chatForm = document.getElementById('chatForm');
@@ -1162,8 +1135,7 @@
                     const data = doc.data();
                     messages.push({ id: doc.id, ...data, time: data.createdAt ? data.createdAt.toMillis() : Date.now() });
                 });
-                messages.sort((a, b) => a.time - b.time);
-                renderMessages(messages);
+                messages.sort((a, b) => a.time - b.time); renderMessages(messages);
             });
         }
 
@@ -1171,23 +1143,14 @@
             if (!chatMessages) return;
             chatMessages.innerHTML = '<div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-5"><i class="fas fa-crosshairs text-[10rem] text-white"></i></div>';
             if (messages.length === 0) {
-                const emptyMsg = document.createElement('div');
-                emptyMsg.className = "text-center text-gray-500 text-sm mt-10 z-10 font-bold uppercase tracking-widest";
-                emptyMsg.textContent = "Menunggu transmisi pertama...";
-                chatMessages.appendChild(emptyMsg);
-                return;
+                const emptyMsg = document.createElement('div'); emptyMsg.className = "text-center text-gray-500 text-sm mt-10 z-10 font-bold uppercase tracking-widest"; emptyMsg.textContent = "Menunggu transmisi pertama..."; chatMessages.appendChild(emptyMsg); return;
             }
             messages.forEach(msg => {
-                const isMe = msg.uid === currentUser.uid;
-                const div = document.createElement('div');
+                const isMe = msg.uid === currentUser.uid; const div = document.createElement('div');
                 div.className = `flex flex-col max-w-[90%] ${isMe ? 'self-end items-end' : 'self-start'} z-10 page-enter`;
-                div.innerHTML = `
-                    <span class="text-[10px] ${isMe ? 'text-pubg-yellow' : 'text-gray-400'} mb-1 px-1 font-bold uppercase tracking-widest">${escapeHTML(msg.name)}</span>
-                    <div class="${isMe ? 'bg-pubg-yellow text-pubg-black' : 'bg-gray-800 text-white border border-gray-600'} px-4 py-2 text-sm break-words leading-relaxed shadow-md rounded-sm">
-                        ${escapeHTML(msg.text)}
-                    </div>
-                    <span class="text-[9px] text-gray-600 mt-1 uppercase tracking-widest font-bold">${new Date(msg.time).toLocaleTimeString('ms-MY', {hour: '2-digit', minute:'2-digit'})}</span>
-                `;
+                div.innerHTML = `<span class="text-[10px] ${isMe ? 'text-pubg-yellow' : 'text-gray-400'} mb-1 px-1 font-bold uppercase tracking-widest">${escapeHTML(msg.name)}</span>
+                    <div class="${isMe ? 'bg-pubg-yellow text-pubg-black' : 'bg-gray-800 text-white border border-gray-600'} px-4 py-2 text-sm break-words leading-relaxed shadow-md rounded-sm">${escapeHTML(msg.text)}</div>
+                    <span class="text-[9px] text-gray-600 mt-1 uppercase tracking-widest font-bold">${new Date(msg.time).toLocaleTimeString('ms-MY', {hour: '2-digit', minute:'2-digit'})}</span>`;
                 chatMessages.appendChild(div);
             });
             chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -1195,13 +1158,9 @@
 
         if (chatForm) {
             chatForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                if (!currentUser) return;
-                const text = chatInput.value.trim();
-                const name = guestName.value.trim() || 'Player';
-                if (!text) return;
-                sendBtn.disabled = true;
-                chatInput.disabled = true;
+                e.preventDefault(); if (!currentUser) return;
+                const text = chatInput.value.trim(); const name = guestName.value.trim() || 'Player';
+                if (!text) return; sendBtn.disabled = true; chatInput.disabled = true;
                 try {
                     const chatRef = collection(db, 'artifacts', appId, 'public', 'data', 'guestbook_chats');
                     await addDoc(chatRef, { uid: currentUser.uid, name: name, text: text, createdAt: serverTimestamp() });
@@ -1210,7 +1169,6 @@
                 finally { sendBtn.disabled = false; chatInput.disabled = false; chatInput.focus(); }
             });
         }
-        // FIXED: Corrected HTML escaping specifically for apostrophes (changed from 'Qk1' to '&#39;')
         function escapeHTML(str) { return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)); }
     </script>
 </body>
