@@ -470,10 +470,16 @@
                 return;
             }
             
-            // Logik Artikel Penuh Blog
-            if (hash.startsWith('blog?id=')) {
-                const id = hash.split('=')[1];
-                window.showFullArticle(id);
+            // Logik Artikel Penuh Blog (Menyokong format URL ?t=tajuk&id=id)
+            if (hash.startsWith('blog?')) {
+                const paramsString = hash.substring(hash.indexOf('?') + 1);
+                const params = new URLSearchParams(paramsString);
+                const id = params.get('id');
+                if (id) {
+                    window.showFullArticle(id);
+                } else {
+                    window.location.hash = 'home';
+                }
             } else {
                 // KEMBALIKAN SEO KE DEFAULT JIKA BUKAN ARTIKEL PENUH
                 window.updateSEO(
@@ -811,8 +817,10 @@
                                     fillAdminForm(window.currentGlobalData);
                                     
                                     // Re-render full article IF on article page to show edit buttons
-                                    if(window.location.hash.startsWith('#blog?id=')) {
-                                        window.showFullArticle(window.location.hash.split('=')[1]);
+                                    if(window.location.hash.startsWith('#blog?')) {
+                                        const params = new URLSearchParams(window.location.hash.substring(window.location.hash.indexOf('?') + 1));
+                                        const currId = params.get('id');
+                                        if (currId) window.showFullArticle(currId);
                                     }
                                 }
                             });
@@ -822,7 +830,7 @@
                         
                         // Periksa routing blog pada reload pertama selepas data dimuat
                         if (window.initialLoad) {
-                            if(window.location.hash.includes('blog?id=')) {
+                            if(window.location.hash.includes('blog?')) {
                                 window.handleHash(); 
                             }
                             window.initialLoad = false;
@@ -874,9 +882,10 @@
             }
 
             // RENDER BLOG (RE-RENDER JIKA DIKEMASKINI)
-            if(window.location.hash.startsWith('#blog?id=')) {
-                const currId = window.location.hash.split('=')[1];
-                window.showFullArticle(currId);
+            if(window.location.hash.startsWith('#blog?')) {
+                const params = new URLSearchParams(window.location.hash.substring(window.location.hash.indexOf('?') + 1));
+                const currId = params.get('id');
+                if (currId) window.showFullArticle(currId);
             }
 
             const blogContainer = document.getElementById('blog-container');
@@ -887,8 +896,11 @@
                 } else {
                     data.blog.forEach(b => {
                         const shortText = b.content.length > 200 ? escapeHTML(b.content.substring(0, 200)) + '...' : escapeHTML(b.content);
+                        // Hasilkan URL Mesra SEO (Slug) daripada Tajuk
+                        const slug = b.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+                        
                         blogHTML += `
-                        <div class="bg-pubg-darker border-l-4 border-pubg-gray p-6 hover:border-pubg-yellow transition duration-300 cursor-pointer group shadow-lg" onclick="window.location.hash='blog?id=${b.id}'">
+                        <div class="bg-pubg-darker border-l-4 border-pubg-gray p-6 hover:border-pubg-yellow transition duration-300 cursor-pointer group shadow-lg" onclick="window.location.hash='blog?t=${slug}&id=${b.id}'">
                             <h4 class="text-3xl font-epic font-bold text-white uppercase group-hover:text-pubg-yellow transition">${b.title}</h4>
                             <div class="flex flex-wrap gap-3 text-xs text-gray-400 font-bold uppercase tracking-widest mt-2 mb-4">
                                 <span><i class="fas fa-calendar-alt text-pubg-yellow"></i> ${b.date}</span>
@@ -1122,8 +1134,10 @@
                     if(window.currentGlobalData) { fillAdminForm(window.currentGlobalData); }
                     
                     // Force re-render if already on a blog detail page to show edit buttons
-                    if(window.location.hash.startsWith('#blog?id=')) {
-                        window.showFullArticle(window.location.hash.split('=')[1]);
+                    if(window.location.hash.startsWith('#blog?')) {
+                        const params = new URLSearchParams(window.location.hash.substring(window.location.hash.indexOf('?') + 1));
+                        const currId = params.get('id');
+                        if (currId) window.showFullArticle(currId);
                     } else if (window.location.hash === '#home' || window.location.hash === '') {
                         renderPublicData(window.currentGlobalData);
                     }
