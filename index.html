@@ -742,6 +742,83 @@
         window.currentGlobalData = null;
         window.bgmType = 'audio';
         window.initialLoad = true;
+        window.currentBlogPage = 1;
+        const BLOG_ITEMS_PER_PAGE = 5;
+
+        // SISTEM PAGING MINI BLOG
+        window.changeBlogPage = function(direction) {
+            if(window.currentGlobalData && window.currentGlobalData.blog) {
+                const newPage = window.currentBlogPage + direction;
+                window.renderBlogList(window.currentGlobalData.blog, newPage);
+                
+                // Tatal licin ke bahagian atas blog
+                const blogSection = document.getElementById('page-home');
+                if(blogSection) {
+                    const y = blogSection.getBoundingClientRect().top + window.scrollY - 80;
+                    window.scrollTo({top: y, behavior: 'smooth'});
+                }
+            }
+        };
+
+        window.renderBlogList = function(blogData, page = 1) {
+            const blogContainer = document.getElementById('blog-container');
+            if(!blogContainer || !blogData) return;
+
+            let blogHTML = '';
+            if(blogData.length === 0) {
+                blogHTML = '<div class="text-center text-gray-500 font-bold uppercase mt-10">Tiada artikel intel diterbitkan buat masa ini.</div>';
+                blogContainer.innerHTML = blogHTML;
+                return;
+            }
+
+            const totalPages = Math.ceil(blogData.length / BLOG_ITEMS_PER_PAGE);
+            if (page < 1) page = 1;
+            if (page > totalPages) page = totalPages;
+            window.currentBlogPage = page;
+
+            const startIndex = (page - 1) * BLOG_ITEMS_PER_PAGE;
+            const endIndex = startIndex + BLOG_ITEMS_PER_PAGE;
+            const currentItems = blogData.slice(startIndex, endIndex);
+
+            currentItems.forEach(b => {
+                const shortText = b.content.length > 200 ? escapeHTML(b.content.substring(0, 200)) + '...' : escapeHTML(b.content);
+                const slug = b.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+                
+                blogHTML += `
+                <div class="bg-pubg-darker border-l-4 border-pubg-gray p-6 hover:border-pubg-yellow transition duration-300 cursor-pointer group shadow-lg" onclick="window.location.hash='blog?t=${slug}&id=${b.id}'">
+                    <h4 class="text-3xl font-epic font-bold text-white uppercase group-hover:text-pubg-yellow transition">${b.title}</h4>
+                    <div class="flex flex-wrap gap-3 text-xs text-gray-400 font-bold uppercase tracking-widest mt-2 mb-4">
+                        <span><i class="fas fa-calendar-alt text-pubg-yellow"></i> ${b.date}</span>
+                        <span class="text-tiktok-blue"><i class="fas fa-hashtag"></i> ${b.tags}</span>
+                    </div>
+                    <p class="text-gray-400 text-base leading-relaxed font-body">${shortText}</p>
+                    <span class="text-pubg-yellow text-sm font-bold uppercase mt-4 inline-block tracking-widest group-hover:underline">Baca Laporan Penuh &raquo;</span>
+                </div>`;
+            });
+
+            if (totalPages > 1) {
+                blogHTML += `<div class="flex justify-between items-center mt-8 border-t border-gray-800 pt-6">`;
+                
+                if (page > 1) {
+                    blogHTML += `<button onclick="window.changeBlogPage(-1)" class="bg-pubg-dark border-2 border-pubg-gray hover:border-pubg-yellow hover:text-pubg-yellow text-white px-5 py-2.5 font-bold uppercase tracking-widest text-xs transition shadow-lg flex items-center gap-2"><i class="fas fa-chevron-left"></i> Prev</button>`;
+                } else {
+                    blogHTML += `<div></div>`; // Ruang kosong untuk seimbangkan flexbox
+                }
+                
+                blogHTML += `<span class="text-gray-400 font-bold uppercase tracking-widest text-xs bg-pubg-black px-4 py-2 rounded-sm border border-gray-800 hidden sm:block">Halaman ${page} / ${totalPages}</span>`;
+
+                if (page < totalPages) {
+                    blogHTML += `<button onclick="window.changeBlogPage(1)" class="bg-pubg-dark border-2 border-pubg-gray hover:border-pubg-yellow hover:text-pubg-yellow text-white px-5 py-2.5 font-bold uppercase tracking-widest text-xs transition shadow-lg flex items-center gap-2">Next <i class="fas fa-chevron-right"></i></button>`;
+                } else {
+                    blogHTML += `<div></div>`; 
+                }
+                
+                blogHTML += `</div>`;
+                blogHTML += `<div class="text-center mt-4 sm:hidden"><span class="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Halaman ${page} / ${totalPages}</span></div>`;
+            }
+
+            blogContainer.innerHTML = blogHTML;
+        };
 
         // SENARAI KATA KESAT (PROFANITY FILTER)
         const badWords = [
@@ -910,27 +987,7 @@
 
             const blogContainer = document.getElementById('blog-container');
             if(blogContainer && data.blog) {
-                let blogHTML = '';
-                if(data.blog.length === 0) {
-                    blogHTML = '<div class="text-center text-gray-500 font-bold uppercase mt-10">Tiada artikel intel diterbitkan buat masa ini.</div>';
-                } else {
-                    data.blog.forEach(b => {
-                        const shortText = b.content.length > 200 ? escapeHTML(b.content.substring(0, 200)) + '...' : escapeHTML(b.content);
-                        const slug = b.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
-                        
-                        blogHTML += `
-                        <div class="bg-pubg-darker border-l-4 border-pubg-gray p-6 hover:border-pubg-yellow transition duration-300 cursor-pointer group shadow-lg" onclick="window.location.hash='blog?t=${slug}&id=${b.id}'">
-                            <h4 class="text-3xl font-epic font-bold text-white uppercase group-hover:text-pubg-yellow transition">${b.title}</h4>
-                            <div class="flex flex-wrap gap-3 text-xs text-gray-400 font-bold uppercase tracking-widest mt-2 mb-4">
-                                <span><i class="fas fa-calendar-alt text-pubg-yellow"></i> ${b.date}</span>
-                                <span class="text-tiktok-blue"><i class="fas fa-hashtag"></i> ${b.tags}</span>
-                            </div>
-                            <p class="text-gray-400 text-base leading-relaxed font-body">${shortText}</p>
-                            <span class="text-pubg-yellow text-sm font-bold uppercase mt-4 inline-block tracking-widest group-hover:underline">Baca Laporan Penuh &raquo;</span>
-                        </div>`;
-                    });
-                }
-                blogContainer.innerHTML = blogHTML;
+                window.renderBlogList(data.blog, window.currentBlogPage);
             }
 
             const gamesContainer = document.getElementById('games-container');
