@@ -82,6 +82,9 @@
 
         .decoding-text::after { content: '|'; animation: blink 1s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .chat-scroll::-webkit-scrollbar { width: 4px; }
+        .chat-scroll::-webkit-scrollbar-thumb { background: #E05A00; border-radius: 2px; }
     </style>
 </head>
 <body class="bg-pubg-black text-pubg-light bg-grid flex flex-col min-h-screen selection:bg-pubg-yellow selection:text-black">
@@ -106,7 +109,6 @@
                 <li><button onclick="window.location.hash='profile'" class="nav-btn px-2 py-1 text-gray-400 hover:text-white transition" data-target="profile">Profil</button></li>
                 <li><button onclick="window.location.hash='games'" class="nav-btn px-2 py-1 text-gray-400 hover:text-white transition" data-target="games">Riwayat Game</button></li>
                 <li><button onclick="window.location.hash='portfolio'" class="nav-btn px-2 py-1 text-gray-400 hover:text-white transition" data-target="portfolio">Armory</button></li>
-                <li class="block lg:hidden"><button onclick="window.location.hash='chat'" class="nav-btn px-2 py-1 text-gray-400 hover:text-white transition" data-target="chat">Chat</button></li>
             </ul>
 
             <div class="flex items-center space-x-3">
@@ -127,57 +129,14 @@
                 <li><button onclick="window.location.hash='profile'; toggleMobileMenu()" class="w-full py-3 hover:text-pubg-yellow transition bg-pubg-black/50" data-target="profile">Profil</button></li>
                 <li><button onclick="window.location.hash='games'; toggleMobileMenu()" class="w-full py-3 hover:text-pubg-yellow transition bg-pubg-black/50" data-target="games">Riwayat Game</button></li>
                 <li><button onclick="window.location.hash='portfolio'; toggleMobileMenu()" class="w-full py-3 hover:text-pubg-yellow transition bg-pubg-black/50" data-target="portfolio">Armory</button></li>
-                <li><button onclick="window.location.hash='chat'; toggleMobileMenu()" class="w-full py-4 bg-pubg-yellow text-pubg-black mt-2" data-target="chat">Basecamp Chat</button></li>
             </ul>
         </div>
     </header>
 
     <div class="flex-grow container mx-auto px-4 lg:px-6 py-8 flex flex-col lg:flex-row gap-8 items-start relative z-10">
         
-        <!-- CHATBOX (SIDEBAR KIRI) -->
-        <aside id="page-chat" class="page-section hidden lg:flex flex-col w-full lg:w-[350px] xl:w-[400px] lg:sticky lg:top-[5.5rem] h-[calc(100vh-100px)] lg:h-[calc(100vh-7.5rem)] shrink-0 z-20 lg:order-first">
-            <div class="bg-pubg-dark border-2 border-pubg-gray overflow-hidden flex flex-col h-full shadow-[0_0_30px_rgba(0,0,0,0.8)] rounded-lg">
-                <div class="bg-pubg-darker px-5 py-4 border-b-4 border-pubg-gray flex justify-between items-center z-10 shadow-lg">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-pubg-yellow flex items-center justify-center transform -skew-x-12 border-2 border-pubg-orange shadow-lg shrink-0">
-                            <div class="text-pubg-black font-epic font-bold text-2xl transform skew-x-12">BY</div>
-                        </div>
-                        <div>
-                            <h3 class="font-bold font-epic text-2xl text-white uppercase tracking-wider flex items-center gap-2 leading-none mb-1">
-                                BASECAMP CHAT <i class="fas fa-signal text-pubg-yellow text-sm"></i>
-                            </h3>
-                            <div class="flex items-center gap-2">
-                                <span class="w-2 h-2 rounded-full bg-red-600 animate-pulse shadow-[0_0_10px_red]"></span>
-                                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest" id="authStatusText">Menyambung...</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div id="chatMessages" class="flex-grow p-4 lg:p-6 overflow-y-auto chat-scroll flex flex-col space-y-4 bg-pubg-black relative">
-                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-5">
-                        <i class="fas fa-crosshairs text-[10rem] text-white"></i>
-                    </div>
-                </div>
-
-                <form id="chatForm" class="bg-pubg-darker p-4 lg:p-5 border-t-4 border-pubg-gray flex flex-col gap-3 z-10 shadow-[0_-10px_20px_rgba(0,0,0,0.5)]">
-                    <div class="w-full">
-                        <label class="text-[10px] text-pubg-yellow font-bold uppercase tracking-widest mb-1 block">ID Pemain</label>
-                        <input type="text" id="guestName" placeholder="Nama..." class="w-full bg-pubg-black border-2 border-gray-600 text-white px-3 py-2.5 text-base font-body outline-none focus:border-pubg-yellow transition rounded-sm shadow-inner pointer-events-auto select-auto cursor-text" required maxlength="15">
-                    </div>
-                    <div class="w-full">
-                        <label class="text-[10px] text-pubg-yellow font-bold uppercase tracking-widest mb-1 block">Mesej Transmisi</label>
-                        <input type="text" id="chatInput" placeholder="Taip mesej..." class="w-full bg-pubg-black border-2 border-gray-600 text-white px-3 py-2.5 text-base font-body outline-none focus:border-pubg-yellow transition rounded-sm shadow-inner pointer-events-auto select-auto cursor-text" required autocomplete="off">
-                    </div>
-                    <button type="submit" id="sendBtn" class="w-full btn-epic bg-pubg-yellow hover:bg-pubg-orange text-pubg-black px-6 py-2.5 mt-1 disabled:opacity-50 shadow-lg">
-                        <div class="font-epic font-bold text-xl uppercase tracking-wider">Hantar</div>
-                    </button>
-                </form>
-            </div>
-        </aside>
-
         <!-- KANDUNGAN DINAMIK UTAMA -->
-        <main class="w-full lg:flex-1 relative min-h-[75vh] min-w-0">
+        <main class="w-full relative min-h-[75vh] min-w-0">
 
             <!-- HALAMAN BERANDA (MINI BLOG) -->
             <section id="page-home" class="page-section flex flex-col w-full pt-6 xl:pt-12 relative">
@@ -219,9 +178,6 @@
                             </button>
                             <button onclick="window.location.hash='portfolio'" class="btn-epic bg-pubg-gray border border-gray-500 hover:border-pubg-yellow text-white px-10 py-4 text-2xl lg:text-3xl font-epic font-bold uppercase">
                                 <div><i class="fab fa-tiktok text-tiktok-blue"></i> Rakaman Aksi</div>
-                            </button>
-                            <button onclick="window.location.hash='chat'" class="btn-epic bg-gray-800 border border-blue-500 hover:border-blue-400 text-white px-10 py-4 text-2xl lg:text-3xl font-epic font-bold uppercase shadow-[0_0_15px_rgba(59,130,246,0.3)] lg:hidden">
-                                <div><i class="fas fa-bolt text-pubg-yellow"></i> Basecamp Chat</div>
                             </button>
                         </div>
 
@@ -333,7 +289,7 @@
                 </div>
             </section>
 
-            <!-- HALAMAN BLOG DETAIL (ARTIKEL PENUH) -->
+            <!-- HALAMAN BLOG DETAIL (ARTIKEL PENUH & CHAT) -->
             <section id="page-blog-detail" class="page-section hidden pt-10">
                 <div class="w-full max-w-4xl mx-auto bg-pubg-dark border-2 border-pubg-gray p-6 lg:p-10 relative shadow-2xl">
                     <button onclick="window.location.hash='home'" class="text-pubg-yellow mb-6 hover:text-white transition font-bold uppercase tracking-widest text-sm inline-flex items-center gap-2">
@@ -349,6 +305,37 @@
                     </div>
                     
                     <div id="blog-detail-content" class="text-gray-300 text-lg lg:text-xl leading-relaxed whitespace-pre-wrap font-body"></div>
+
+                    <!-- SEKSYEN ULASAN / CHAT ARTIKEL -->
+                    <div id="article-comments-section" class="mt-16 pt-8 border-t-2 border-gray-700 hidden">
+                        <h3 class="text-3xl font-epic font-bold text-pubg-yellow uppercase tracking-wider mb-6">Ruang Ulasan Laporan</h3>
+                        
+                        <!-- List Chat Khas Artikel -->
+                        <div id="article-chat-list" class="flex flex-col mb-8 max-h-[500px] overflow-y-auto pr-2 chat-scroll bg-pubg-black/30 p-4 border border-gray-800 rounded-sm"></div>
+                        
+                        <!-- Form Chat Khas Artikel -->
+                        <form id="articleChatForm" class="bg-pubg-dark border-2 border-pubg-gray p-4 lg:p-6 shadow-lg">
+                            <h4 class="text-xl font-epic font-bold text-white uppercase mb-4">Hantar Transmisi Baru</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="text-[10px] text-pubg-yellow font-bold uppercase tracking-widest mb-1 block">Nama (Callsign)</label>
+                                    <input type="text" id="commentName" placeholder="Nama anda..." class="w-full bg-pubg-black border border-gray-600 text-white px-3 py-2.5 text-base font-body outline-none focus:border-pubg-yellow transition rounded-sm shadow-inner pointer-events-auto select-auto cursor-text" required maxlength="20">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] text-pubg-yellow font-bold uppercase tracking-widest mb-1 block">Email (Wajib - Untuk Anti Spam)</label>
+                                    <input type="email" id="commentEmail" placeholder="Email (Disembunyikan dari awam)..." class="w-full bg-pubg-black border border-gray-600 text-white px-3 py-2.5 text-base font-body outline-none focus:border-pubg-yellow transition rounded-sm shadow-inner pointer-events-auto select-auto cursor-text" required>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="text-[10px] text-pubg-yellow font-bold uppercase tracking-widest mb-1 block">Mesej Transmisi</label>
+                                <textarea id="commentText" placeholder="Taip ulasan atau persoalan anda..." class="w-full bg-pubg-black border border-gray-600 text-white px-3 py-2.5 text-base font-body outline-none focus:border-pubg-yellow transition rounded-sm shadow-inner pointer-events-auto select-auto cursor-text h-24" required></textarea>
+                            </div>
+                            <button type="submit" id="btnSubmitComment" class="bg-pubg-yellow hover:bg-pubg-orange text-pubg-black px-8 py-2.5 font-epic font-bold text-xl uppercase tracking-wider shadow-lg transition disabled:opacity-50">
+                                Hantar Mesej
+                            </button>
+                            <p class="text-gray-500 text-[10px] mt-3 font-bold uppercase tracking-widest"><i class="fas fa-shield-alt mr-1"></i> Transmisi dilindungi. Sebarang kata-kata kesat / lucah akan disekat oleh sistem.</p>
+                        </form>
+                    </div>
                 </div>
             </section>
             
@@ -489,16 +476,14 @@
                 );
 
                 // Logik Menu Biasa
-                const isDesktop = window.innerWidth >= 1024;
                 document.querySelectorAll('.page-section').forEach(el => {
-                    if (el.id === 'page-chat' && isDesktop) { el.classList.remove('hidden'); el.classList.add('lg:flex'); } 
-                    else { el.classList.add('hidden'); el.classList.remove('page-enter'); }
+                    el.classList.add('hidden'); el.classList.remove('page-enter');
                 });
                 
                 const targetPage = document.getElementById('page-' + hash);
                 if (targetPage) {
                     targetPage.classList.remove('hidden');
-                    if (!(targetPage.id === 'page-chat' && isDesktop)) { void targetPage.offsetWidth; targetPage.classList.add('page-enter'); }
+                    void targetPage.offsetWidth; targetPage.classList.add('page-enter');
                 }
                 
                 // Active Nav State
@@ -515,7 +500,7 @@
 
         window.showFullArticle = function(id) {
             const data = window.currentGlobalData;
-            if(!data || !data.blog) return; // tunggu data masuk
+            if(!data || !data.blog) return;
             
             const article = data.blog.find(b => b.id === id);
             if(!article) {
@@ -525,13 +510,9 @@
             
             // KEMAS KINI SEO KHAS UNTUK ARTIKEL INI
             const cleanDescription = article.content.replace(/[\r\n]+/g, ' ').replace(/"/g, '&quot;').substring(0, 155) + '...';
-            window.updateSEO(
-                `BANGYAN | ${article.title}`,
-                cleanDescription,
-                `BangYan, Blog, ${article.tags}`
-            );
+            window.updateSEO(`BANGYAN | ${article.title}`, cleanDescription, `BangYan, Blog, ${article.tags}`);
 
-            // Format Kandungan
+            // Format Kandungan Utama
             document.getElementById('blog-detail-title').innerText = article.title;
             document.getElementById('blog-detail-date').innerHTML = `<i class="fas fa-calendar-alt text-pubg-yellow mr-1"></i> ${article.date}`;
             document.getElementById('blog-detail-tags').innerHTML = `<i class="fas fa-hashtag text-tiktok-blue mr-1"></i> ${article.tags}`;
@@ -552,11 +533,16 @@
             
             document.getElementById('blog-detail-content').innerHTML = formattedContent + adminControls;
             
+            // SETUP RUANGAN CHAT KHAS ARTIKEL INI
+            window.currentArticleId = article.id;
+            document.getElementById('article-comments-section').classList.remove('hidden');
+            if (window.currentGlobalData && typeof window.loadArticleComments === 'function') {
+                window.loadArticleComments(article.id);
+            }
+            
             // Tunjuk Halaman
-            const isDesktop = window.innerWidth >= 1024;
             document.querySelectorAll('.page-section').forEach(el => {
-                if (el.id === 'page-chat' && isDesktop) { el.classList.remove('hidden'); el.classList.add('lg:flex'); } 
-                else { el.classList.add('hidden'); el.classList.remove('page-enter'); }
+                el.classList.add('hidden'); el.classList.remove('page-enter');
             });
             const targetPage = document.getElementById('page-blog-detail');
             if(targetPage) {
@@ -564,7 +550,7 @@
                 void targetPage.offsetWidth; targetPage.classList.add('page-enter');
             }
             
-            // Highlight nothing strictly active on nav, since it's a sub-page
+            // Hilangkan semua highlight menu
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.className = "nav-btn px-2 py-1 text-gray-400 hover:text-white transition";
             });
@@ -573,13 +559,6 @@
 
         // Dengar pertukaran URL
         window.addEventListener('hashchange', window.handleHash);
-
-        window.addEventListener('resize', () => {
-            const isDesktop = window.innerWidth >= 1024;
-            const chatSection = document.getElementById('page-chat');
-            if (isDesktop) { if (chatSection) { chatSection.classList.remove('hidden'); chatSection.classList.add('lg:flex'); } } 
-            else { const chatBtnActive = document.querySelector('.nav-btn[data-target="chat"].text-pubg-yellow'); if (!chatBtnActive && chatSection) chatSection.classList.add('hidden'); }
-        });
 
         window.toggleMobileMenu = function() { 
             const mobileMenu = document.getElementById('mobileMenu');
@@ -667,7 +646,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            window.handleHash(); // Route pertama kali jalan
+            window.handleHash(); 
             const bgmAudio = document.getElementById('bgmAudio');
             const bgmYt = document.getElementById('bgmYoutube');
             const musicToggleBtn = document.getElementById('musicToggle');
@@ -730,10 +709,26 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
         let currentUser = null;
+        let currentChatUnsubscribe = null; // Penanda ulasan terkini
         window.isSuperAdmin = false;
         window.currentGlobalData = null;
         window.bgmType = 'audio';
-        window.initialLoad = true; // Penanda load pertama untuk routing
+        window.initialLoad = true;
+
+        // SENARAI KATA KESAT (PROFANITY FILTER)
+        const badWords = [
+            'bodoh', 'babi', 'sial', 'pukimak', 'kimak', 'bontot', 'butoh', 
+            'fuck', 'shit', 'bitch', 'asshole', 'dick', 'pussy', 'cunt', 
+            'bangsat', 'anjing', 'gampang', 'celaka', 'sundal', 'pantat'
+        ];
+
+        function containsProfanity(text) {
+            const lowerText = text.toLowerCase();
+            return badWords.some(word => {
+                const regex = new RegExp('\\b' + word + '\\b', 'i');
+                return regex.test(lowerText);
+            });
+        }
 
         const DEFAULT_CONTENT = {
             hero: { profileImg: "https://i.imgur.com/odvfubA.png" },
@@ -773,18 +768,17 @@
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
-                const authStatusText = document.getElementById('authStatusText');
-                if(authStatusText) {
-                    authStatusText.textContent = "ONLINE / SECURE";
-                    authStatusText.classList.add("text-pubg-yellow");
-                    authStatusText.previousElementSibling.className = "w-2 h-2 rounded-full bg-pubg-yellow animate-pulse shadow-[0_0_10px_#F2A900]";
+                const commentNameInput = document.getElementById('commentName');
+                if(commentNameInput && !commentNameInput.value) {
+                    commentNameInput.value = "Player_" + Math.floor(Math.random() * 900 + 100);
                 }
-                const guestNameInput = document.getElementById('guestName');
-                if(guestNameInput) {
-                    guestNameInput.value = "Player_" + Math.floor(Math.random() * 900 + 100);
-                }
-                loadMessages();
+                
                 await initializeDatabase(); 
+                
+                // Jika artikel sedang terbuka sewaktu login refresh
+                if(window.currentArticleId) {
+                    window.loadArticleComments(window.currentArticleId);
+                }
             } else { currentUser = null; }
         });
 
@@ -816,7 +810,6 @@
                                     injectAdminModal();
                                     fillAdminForm(window.currentGlobalData);
                                     
-                                    // Re-render full article IF on article page to show edit buttons
                                     if(window.location.hash.startsWith('#blog?')) {
                                         const params = new URLSearchParams(window.location.hash.substring(window.location.hash.indexOf('?') + 1));
                                         const currId = params.get('id');
@@ -828,7 +821,6 @@
                             fillAdminForm(window.currentGlobalData);
                         }
                         
-                        // Periksa routing blog pada reload pertama selepas data dimuat
                         if (window.initialLoad) {
                             if(window.location.hash.includes('blog?')) {
                                 window.handleHash(); 
@@ -896,7 +888,6 @@
                 } else {
                     data.blog.forEach(b => {
                         const shortText = b.content.length > 200 ? escapeHTML(b.content.substring(0, 200)) + '...' : escapeHTML(b.content);
-                        // Hasilkan URL Mesra SEO (Slug) daripada Tajuk
                         const slug = b.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
                         
                         blogHTML += `
@@ -1122,7 +1113,6 @@
                 await new Promise(resolve => setTimeout(resolve, 800));
                 if (dbEmail && dbPass && dbEmail === email && dbPass === pass) { isValid = true; }
                 if (isValid) {
-                    // SIMPAN LOGIN KE LOCAL STORAGE
                     localStorage.setItem('by_admin_email', email);
                     localStorage.setItem('by_admin_pass', pass);
                     
@@ -1133,7 +1123,6 @@
                     safeSetVal('ad-email', email); safeSetVal('ad-pass', pass);
                     if(window.currentGlobalData) { fillAdminForm(window.currentGlobalData); }
                     
-                    // Force re-render if already on a blog detail page to show edit buttons
                     if(window.location.hash.startsWith('#blog?')) {
                         const params = new URLSearchParams(window.location.hash.substring(window.location.hash.indexOf('?') + 1));
                         const currId = params.get('id');
@@ -1185,7 +1174,6 @@
                     }
                 }
 
-                // SIMPAN BLOG DATA (Hanya untuk ARTIKEL BARU)
                 let newBlog = window.currentGlobalData && window.currentGlobalData.blog ? [...window.currentGlobalData.blog] : [];
                 const newTitle = document.getElementById('ab-title-new').value.trim();
                 
@@ -1214,13 +1202,11 @@
                         timestamp: tsVal
                     });
 
-                    // Kosongkan semula form selepas disimpan
                     document.getElementById('ab-title-new').value = "";
                     document.getElementById('ab-tags-new').value = "";
                     document.getElementById('ab-content-new').value = "";
                 }
                 
-                // Susun ikut tarikh & masa paling baru
                 newBlog.sort((a, b) => b.timestamp - a.timestamp);
 
                 let rawAudioUrl = document.getElementById('ad-bgm-audio').value.trim();
@@ -1257,7 +1243,6 @@
             finally { btn.innerHTML = `Simpan`; }
         };
 
-        // FUNGSI FIREBASE: EDIT ARTIKEL
         window.saveEditedArticle = async function() {
             if(!window.isSuperAdmin || !currentUser) return;
             const btn = document.getElementById('btnSaveEditBlog');
@@ -1292,7 +1277,6 @@
             }
         };
 
-        // FUNGSI FIREBASE: PADAM ARTIKEL
         window.deleteArticle = async function(id) {
             if(!window.isSuperAdmin || !currentUser) return;
             if(!confirm("Adakah anda pasti mahu memadam artikel ini secara kekal?")) return;
@@ -1309,55 +1293,103 @@
             }
         };
 
-        const chatForm = document.getElementById('chatForm');
-        const chatInput = document.getElementById('chatInput');
-        const guestName = document.getElementById('guestName');
-        const chatMessages = document.getElementById('chatMessages');
-        const sendBtn = document.getElementById('sendBtn');
-
-        function loadMessages() {
+        // FUNGSI FIREBASE: CHAT ARTIKEL (ULASAN)
+        window.loadArticleComments = function(articleId) {
             if (!currentUser) return;
-            const chatRef = collection(db, 'artifacts', appId, 'public', 'data', 'guestbook_chats');
-            onSnapshot(chatRef, (snapshot) => {
+            const chatList = document.getElementById('article-chat-list');
+            if(!chatList) return;
+            
+            chatList.innerHTML = '<div class="text-center text-pubg-yellow mt-4 animate-pulse"><i class="fas fa-spinner fa-spin"></i> Menarik ulasan intel...</div>';
+
+            if (currentChatUnsubscribe) {
+                currentChatUnsubscribe();
+            }
+
+            const chatRef = collection(db, 'artifacts', appId, 'public', 'data', 'comments_' + articleId);
+            currentChatUnsubscribe = onSnapshot(chatRef, (snapshot) => {
                 let messages = [];
                 snapshot.forEach((doc) => {
                     const data = doc.data();
                     messages.push({ id: doc.id, ...data, time: data.createdAt ? data.createdAt.toMillis() : Date.now() });
                 });
-                messages.sort((a, b) => a.time - b.time); renderMessages(messages);
-            });
-        }
+                messages.sort((a, b) => a.time - b.time); 
+                
+                chatList.innerHTML = '';
+                if (messages.length === 0) {
+                    chatList.innerHTML = '<div class="text-center text-gray-500 text-sm mt-6 mb-6 font-bold uppercase tracking-widest border-2 border-dashed border-gray-700 py-6">Tiada ulasan. Jadilah yang pertama memberi laporan!</div>';
+                    return;
+                }
 
-        function renderMessages(messages) {
-            if (!chatMessages) return;
-            chatMessages.innerHTML = '<div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-5"><i class="fas fa-crosshairs text-[10rem] text-white"></i></div>';
-            if (messages.length === 0) {
-                const emptyMsg = document.createElement('div'); emptyMsg.className = "text-center text-gray-500 text-sm mt-10 z-10 font-bold uppercase tracking-widest"; emptyMsg.textContent = "Menunggu transmisi pertama..."; chatMessages.appendChild(emptyMsg); return;
-            }
-            messages.forEach(msg => {
-                const isMe = msg.uid === currentUser.uid; const div = document.createElement('div');
-                div.className = `flex flex-col max-w-[90%] ${isMe ? 'self-end items-end' : 'self-start'} z-10 page-enter`;
-                div.innerHTML = `<span class="text-[10px] ${isMe ? 'text-pubg-yellow' : 'text-gray-400'} mb-1 px-1 font-bold uppercase tracking-widest">${escapeHTML(msg.name)}</span>
-                    <div class="${isMe ? 'bg-pubg-yellow text-pubg-black' : 'bg-gray-800 text-white border border-gray-600'} px-4 py-2 text-sm break-words leading-relaxed shadow-md rounded-sm">${escapeHTML(msg.text)}</div>
-                    <span class="text-[9px] text-gray-600 mt-1 uppercase tracking-widest font-bold">${new Date(msg.time).toLocaleTimeString('ms-MY', {hour: '2-digit', minute:'2-digit'})}</span>`;
-                chatMessages.appendChild(div);
+                messages.forEach(msg => {
+                    const isMe = msg.uid === currentUser.uid;
+                    const isSuperAdmin = msg.email && msg.email === localStorage.getItem('by_admin_email');
+                    const adminBadge = isSuperAdmin ? '<span class="bg-red-600 text-white text-[8px] px-1.5 py-0.5 ml-2 rounded-sm border border-red-800"><i class="fas fa-shield-alt"></i> ADMIN</span>' : '';
+                    
+                    const div = document.createElement('div');
+                    div.className = `flex flex-col max-w-full ${isMe ? 'items-end' : 'items-start'} page-enter mb-4`;
+                    div.innerHTML = `
+                        <span class="text-[10px] ${isMe ? 'text-pubg-yellow' : 'text-gray-400'} mb-1 px-1 font-bold uppercase tracking-widest flex items-center">
+                            ${escapeHTML(msg.name)} ${adminBadge}
+                        </span>
+                        <div class="${isMe ? 'bg-pubg-yellow text-pubg-black' : 'bg-gray-800 text-white border border-gray-600'} px-4 py-2.5 text-sm break-words leading-relaxed rounded-sm max-w-[85%] shadow-md">
+                            ${escapeHTML(msg.text)}
+                        </div>
+                        <span class="text-[9px] text-gray-600 mt-1 px-1 uppercase tracking-widest font-bold">${new Date(msg.time).toLocaleTimeString('ms-MY', {day: '2-digit', month: 'short', year:'numeric', hour: '2-digit', minute:'2-digit'})}</span>
+                    `;
+                    chatList.appendChild(div);
+                });
+                chatList.scrollTop = chatList.scrollHeight;
             });
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
+        };
 
-        if (chatForm) {
-            chatForm.addEventListener('submit', async (e) => {
-                e.preventDefault(); if (!currentUser) return;
-                const text = chatInput.value.trim(); const name = guestName.value.trim() || 'Player';
-                if (!text) return; sendBtn.disabled = true; chatInput.disabled = true;
+        const articleChatForm = document.getElementById('articleChatForm');
+        if (articleChatForm) {
+            articleChatForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (!currentUser || !window.currentArticleId) return;
+
+                const nameInput = document.getElementById('commentName');
+                const emailInput = document.getElementById('commentEmail');
+                const textInput = document.getElementById('commentText');
+                const btnSubmit = document.getElementById('btnSubmitComment');
+
+                const name = nameInput.value.trim() || 'Player';
+                const email = emailInput.value.trim();
+                const text = textInput.value.trim();
+
+                if (!text || !email) return;
+
+                // Anti-Spam / Profanity Filter
+                if (containsProfanity(text)) {
+                    window.showCustomAlert("Amaran Sistem: Ulasan anda mengandungi kata-kata kesat atau tidak dibenarkan. Sila jaga adab di ruangan ulasan.");
+                    return;
+                }
+
+                btnSubmit.disabled = true;
+                btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Menghantar...';
+                textInput.disabled = true;
+
                 try {
-                    const chatRef = collection(db, 'artifacts', appId, 'public', 'data', 'guestbook_chats');
-                    await addDoc(chatRef, { uid: currentUser.uid, name: name, text: text, createdAt: serverTimestamp() });
-                    chatInput.value = '';
-                } catch (error) { window.showCustomAlert("Transmisi gagal."); } 
-                finally { sendBtn.disabled = false; chatInput.disabled = false; chatInput.focus(); }
+                    const chatRef = collection(db, 'artifacts', appId, 'public', 'data', 'comments_' + window.currentArticleId);
+                    await addDoc(chatRef, { 
+                        uid: currentUser.uid, 
+                        name: name, 
+                        email: email, 
+                        text: text, 
+                        createdAt: serverTimestamp() 
+                    });
+                    textInput.value = '';
+                } catch (error) { 
+                    window.showCustomAlert("Gagal menghantar ulasan."); 
+                } finally { 
+                    btnSubmit.disabled = false; 
+                    btnSubmit.innerHTML = 'Hantar Mesej';
+                    textInput.disabled = false; 
+                    textInput.focus();
+                }
             });
         }
+
         function escapeHTML(str) { return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)); }
     </script>
 </body>
