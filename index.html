@@ -498,6 +498,17 @@
             }
         }
 
+        window.copyArticleLink = function() {
+            const url = window.location.href;
+            const tempInput = document.createElement("input");
+            tempInput.value = url;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            window.showCustomAlert("Pautan intel berjaya disalin!");
+        };
+
         window.showFullArticle = function(id) {
             const data = window.currentGlobalData;
             if(!data || !data.blog) return;
@@ -524,14 +535,31 @@
             let adminControls = '';
             if (window.isSuperAdmin) {
                 adminControls = `
-                    <div class="mt-12 pt-6 border-t border-gray-700 flex flex-wrap gap-4 relative z-50">
-                        <button onclick="editArticleUI('${article.id}')" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 font-bold uppercase tracking-widest text-sm shadow-lg pointer-events-auto"><i class="fas fa-edit mr-2"></i> Edit Artikel</button>
-                        <button onclick="deleteArticle('${article.id}')" class="bg-red-600 hover:bg-red-500 text-white px-6 py-2.5 font-bold uppercase tracking-widest text-sm shadow-lg pointer-events-auto"><i class="fas fa-trash mr-2"></i> Padam</button>
+                    <div class="flex gap-2">
+                        <button onclick="editArticleUI('${article.id}')" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 font-bold uppercase tracking-widest text-[10px] sm:text-xs shadow-lg pointer-events-auto"><i class="fas fa-edit mr-1"></i> Edit</button>
+                        <button onclick="deleteArticle('${article.id}')" class="bg-red-600 hover:bg-red-500 text-white px-4 py-2 font-bold uppercase tracking-widest text-[10px] sm:text-xs shadow-lg pointer-events-auto"><i class="fas fa-trash mr-1"></i> Padam</button>
                     </div>
                 `;
             }
+
+            const articleUrl = window.location.href;
+            const encodedUrl = encodeURIComponent(articleUrl);
+            const encodedTitle = encodeURIComponent("Laporan Intel: " + article.title);
+
+            // BUTTON SHARE SOSIAL MEDIA
+            const shareControls = `
+                <div class="mt-10 pt-6 border-t border-gray-700 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative z-50">
+                    <div class="flex items-center gap-3">
+                        <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mr-2">Kongsi Intel:</span>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}" target="_blank" class="w-8 h-8 rounded-full bg-[#1877F2] text-white flex items-center justify-center hover:scale-110 transition shadow-lg" title="Share di Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://api.whatsapp.com/send?text=${encodedTitle}%0A${encodedUrl}" target="_blank" class="w-8 h-8 rounded-full bg-[#25D366] text-white flex items-center justify-center hover:scale-110 transition shadow-lg" title="Share di WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <button onclick="copyArticleLink()" class="w-8 h-8 rounded-full bg-pubg-gray border border-gray-500 text-white hover:text-pubg-yellow hover:border-pubg-yellow flex items-center justify-center hover:scale-110 transition shadow-lg" title="Salin Pautan"><i class="fas fa-link"></i></button>
+                    </div>
+                    ${adminControls}
+                </div>
+            `;
             
-            document.getElementById('blog-detail-content').innerHTML = formattedContent + adminControls;
+            document.getElementById('blog-detail-content').innerHTML = formattedContent + shareControls;
             
             // SETUP RUANGAN CHAT KHAS ARTIKEL INI
             window.currentArticleId = article.id;
@@ -691,7 +719,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, doc, setDoc, getDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const myFirebaseConfig = {
             apiKey: "AIzaSyAv27koq_RpjbsQ3MMXD_phxfJsIbEoncA",
@@ -968,7 +996,7 @@
         }
 
         const adminChunks = [
-            '<div id="adminPanelModal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 pointer-events-auto">',
+            '<div id="adminPanelModal" class="hidden fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 pointer-events-auto">',
             '<div class="bg-pubg-darker border-2 border-red-600 shadow-[0_0_50px_rgba(220,38,38,0.4)] w-full max-w-6xl h-[90vh] flex flex-col md:flex-row relative rounded-xl overflow-hidden pointer-events-auto z-50">',
             '<div class="w-full md:w-64 bg-black/90 border-r-2 border-gray-800 flex flex-col shrink-0 z-10">',
             '<div class="p-5 border-b border-gray-800 flex justify-between items-center"><h3 class="text-2xl font-epic font-bold text-red-500 uppercase"><i class="fas fa-shield-alt"></i> CMS Panel</h3><button onclick="closeAdminPanel()" class="text-gray-500 hover:text-white md:hidden text-2xl">&times;</button></div>',
@@ -1118,6 +1146,7 @@
                     
                     window.isSuperAdmin = true;
                     injectAdminModal(); 
+                    document.getElementById('adminPanelModal').classList.remove('hidden');
                     document.getElementById('loginModal').classList.add('hidden');
                     document.getElementById('adminFloatBtn').classList.remove('hidden'); 
                     safeSetVal('ad-email', email); safeSetVal('ad-pass', pass);
@@ -1325,12 +1354,17 @@
                     const isSuperAdmin = msg.email && msg.email === localStorage.getItem('by_admin_email');
                     const adminBadge = isSuperAdmin ? '<span class="bg-red-600 text-white text-[8px] px-1.5 py-0.5 ml-2 rounded-sm border border-red-800"><i class="fas fa-shield-alt"></i> ADMIN</span>' : '';
                     
+                    const deleteBtn = window.isSuperAdmin ? `<button onclick="deleteComment('${articleId}', '${msg.id}')" class="text-red-500 hover:text-red-400 ml-2 text-xs opacity-60 hover:opacity-100 transition" title="Padam Ulasan"><i class="fas fa-trash"></i></button>` : '';
+
                     const div = document.createElement('div');
                     div.className = `flex flex-col max-w-full ${isMe ? 'items-end' : 'items-start'} page-enter mb-4`;
                     div.innerHTML = `
-                        <span class="text-[10px] ${isMe ? 'text-pubg-yellow' : 'text-gray-400'} mb-1 px-1 font-bold uppercase tracking-widest flex items-center">
-                            ${escapeHTML(msg.name)} ${adminBadge}
-                        </span>
+                        <div class="flex items-center w-full mb-1 ${isMe ? 'justify-end' : 'justify-start'}">
+                            <span class="text-[10px] ${isMe ? 'text-pubg-yellow' : 'text-gray-400'} px-1 font-bold uppercase tracking-widest flex items-center">
+                                ${escapeHTML(msg.name)} ${adminBadge}
+                            </span>
+                            ${deleteBtn}
+                        </div>
                         <div class="${isMe ? 'bg-pubg-yellow text-pubg-black' : 'bg-gray-800 text-white border border-gray-600'} px-4 py-2.5 text-sm break-words leading-relaxed rounded-sm max-w-[85%] shadow-md">
                             ${escapeHTML(msg.text)}
                         </div>
@@ -1340,6 +1374,17 @@
                 });
                 chatList.scrollTop = chatList.scrollHeight;
             });
+        };
+
+        window.deleteComment = async function(articleId, commentId) {
+            if(!window.isSuperAdmin || !currentUser) return;
+            if(!confirm("Padam ulasan ini secara kekal?")) return;
+            try {
+                const commentRef = doc(db, 'artifacts', appId, 'public', 'data', 'comments_' + articleId, commentId);
+                await deleteDoc(commentRef);
+            } catch(e) {
+                window.showCustomAlert("Gagal memadam ulasan.");
+            }
         };
 
         const articleChatForm = document.getElementById('articleChatForm');
